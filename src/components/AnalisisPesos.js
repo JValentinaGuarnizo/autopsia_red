@@ -56,13 +56,6 @@ export default function AnalisisPesos() {
     return s;
   };
 
-  const contributions = (x, j) => {
-    // devuelve array de 8 contribuciones: x_i*w_ij
-    const arr = [];
-    for (let i = 0; i < 8; i++) arr.push(x[i] * weights[i][j]);
-    return arr;
-  };
-
   const argMaxAbsCol = (j) => {
     let best = 0;
     let bestAbs = -1;
@@ -121,25 +114,15 @@ export default function AnalisisPesos() {
   const varIdx = (modo === "dominante") ? domIdx : weakIdx;
 
   // Base
-  const cBase = contributions(xBase, neurona);
   const z0 = zForNeuron(xBase, neurona);
   const a0 = relu(z0);
 
   // Modificado: solo cambia la variable seleccionada
   const xMod = xBase.map((v, i) => (i === varIdx ? v + delta : v));
-  const cMod = contributions(xMod, neurona);
   const z1 = zForNeuron(xMod, neurona);
   const a1 = relu(z1);
 
-  const wSel = weights[varIdx][neurona];
-
-  // Para la barra de contribuciones: eje simétrico alrededor de 0
-  const maxAbsContrib = Math.max(
-    1e-6,
-    ...cBase.map(v => Math.abs(v)),
-    ...cMod.map(v => Math.abs(v)),
-    Math.abs(biases[neurona])
-  );
+  const zGaugeMax = Math.max(1, Math.abs(z0), Math.abs(z1), Math.abs(biases[neurona])) * 1.2;
 
   // =========================
   // 3(d) Comparación R3 vs R5
@@ -235,6 +218,9 @@ export default function AnalisisPesos() {
         {inputLabels.map((name, i) => {
           const y = y0 + i * dy;
           const isSel = i === varIdx;
+          const valueText = isSel
+            ? `${Number(xBase[i].toFixed(3))} → ${Number(xMod[i].toFixed(3))}`
+            : Number(xBase[i].toFixed(3));
           return (
             <g key={i}>
               <circle cx={xL} cy={y} r={isSel ? 12 : 10} fill={isSel ? accentPurple : "#bdc3c7"} />
@@ -242,8 +228,8 @@ export default function AnalisisPesos() {
                 {name}
               </text>
               {/* valor x */}
-              <text x={xL + 18} y={y + 4} textAnchor="start" fontSize="11" fill="#7f8c8d">
-                {Number(xBase[i].toFixed(3))}
+              <text x={xL + 18} y={y + 4} textAnchor="start" fontSize="11" fill={isSel ? accentPurple : "#7f8c8d"} style={{ fontWeight: isSel ? 800 : 400 }}>
+                {valueText}
               </text>
             </g>
           );
@@ -272,18 +258,6 @@ export default function AnalisisPesos() {
                 strokeOpacity={isSel ? 0.95 : 0.35}
                 style={{ filter: glow, transition: "stroke-opacity .2s ease, stroke-width .2s ease" }}
               />
-              {/* etiqueta peso cerca del borde */}
-              {isSel && (
-                <text
-                  x={(xL + xR) / 2 - 10}
-                  y={(y + yNeuron) / 2 - 6}
-                  fontSize="11"
-                  fill="#2c3e50"
-                  style={{ fontWeight: 700 }}
-                >
-                  w={w.toFixed(3)}
-                </text>
-              )}
             </g>
           );
         })}
@@ -308,13 +282,6 @@ export default function AnalisisPesos() {
           </text>
         </g>
 
-        {/* Etiqueta de modo */}
-        <g>
-          <rect x="16" y="14" width="398" height="34" rx="10" fill="#f4f6f7" stroke="#e5e7e9" />
-          <text x="30" y="36" fontSize="12" fill="#2c3e50" style={{ fontWeight: 700 }}>
-            Experimento: R3, Neurona N{neurona + 1} — {modo === "dominante" ? "Dominante" : "Débil"} (+{delta})
-          </text>
-        </g>
       </svg>
     );
   };
@@ -325,8 +292,8 @@ export default function AnalisisPesos() {
     const w = 160;
     const centerX = 50;
 
-    // escala z alrededor de 0, usando maxAbsContrib para consistencia visual
-    const zMax = Math.max(1, maxAbsContrib * 2); // margen
+    // escala z alrededor de 0 para comparar antes y despues
+    const zMax = zGaugeMax;
     const clamp = (v) => Math.max(-zMax, Math.min(zMax, v));
     const zn = clamp(z);
     const t = (zn + zMax) / (2 * zMax); // 0..1
@@ -381,135 +348,6 @@ export default function AnalisisPesos() {
     );
   };
 
-  const ContributionsBars = () => {
-    // Barras divergentes para contribuciones (base vs mod), resaltando la variable cambiada
-    const Wcol = weights.map(row => row[neurona]);
-
-    const width = 520;
-    const height = 330;
-    const left = 140;
-    const right = width - 20;
-    const top = 32;
-    const rowH = 32;
-
-    const mid = (left + right) / 2;
-    const scale = (right - left) / 2 / maxAbsContrib;
-
-    return (
-      <svg width={width} height={height} style={{ display: "block" }}>
-        <rect x="0" y="0" width={width} height={height} rx="16" fill="#ffffff" stroke="#e5e7e9" />
-
-        <text x="16" y="22" fontSize="12" fill="#2c3e50" style={{ fontWeight: 800 }}>
-          z como suma ponderada (barras = xᵢ·wᵢⱼ) — Base vs Modificado
-        </text>
-
-        {/* eje central */}
-        <line x1={mid} y1={top} x2={mid} y2={top + rowH * 8 + 10} stroke="#2c3e50" strokeWidth="2" opacity="0.25" />
-
-        {/* bias */}
-        {(() => {
-          const b = biases[neurona];
-          const bw = b * scale;
-          const y = top + rowH * 8 + 18;
-          const x1 = mid;
-          const x2 = mid + bw;
-          const col = b >= 0 ? accentGood : accentBad;
-          return (
-            <>
-              <text x="16" y={y + 4} fontSize="11" fill="#7f8c8d">bias</text>
-              <rect x={Math.min(x1, x2)} y={y - 8} width={Math.abs(bw)} height={12} fill={col} opacity="0.7" rx="6" />
-              <text x={right} y={y + 4} textAnchor="end" fontSize="11" fill="#7f8c8d">
-                b={b.toFixed(3)}
-              </text>
-            </>
-          );
-        })()}
-
-        {/* filas */}
-        {inputLabels.map((name, i) => {
-          const y = top + i * rowH + 10;
-
-          const base = cBase[i];
-          const mod = cMod[i];
-
-          const w = Wcol[i];
-          const color = w >= 0 ? accentGood : accentBad;
-
-          const baseW = base * scale;
-          const modW = mod * scale;
-
-          const isSel = i === varIdx;
-
-          // Barra base (más transparente)
-          const b1 = {
-            x: Math.min(mid, mid + baseW),
-            w: Math.abs(baseW),
-          };
-
-          // Barra mod (más opaca)
-          const b2 = {
-            x: Math.min(mid, mid + modW),
-            w: Math.abs(modW),
-          };
-
-          return (
-            <g key={i}>
-              {/* etiqueta */}
-              <text x="16" y={y + 4} fontSize="12" fill="#2c3e50" style={{ fontWeight: isSel ? 800 : 400 }}>
-                {name}
-              </text>
-
-              {/* base */}
-              <rect
-                x={b1.x}
-                y={y - 10}
-                width={b1.w}
-                height={10}
-                fill={color}
-                opacity={isSel ? 0.35 : 0.18}
-                rx="6"
-              />
-
-              {/* mod */}
-              <rect
-                x={b2.x}
-                y={y + 2}
-                width={b2.w}
-                height={10}
-                fill={isSel ? accentPurple : color}
-                opacity={isSel ? 0.85 : 0.32}
-                rx="6"
-                style={{ filter: isSel ? "drop-shadow(0px 0px 6px rgba(155,89,182,0.45))" : "none" }}
-              />
-
-              {/* números mini */}
-              <text x={right} y={y - 3} textAnchor="end" fontSize="10" fill="#7f8c8d">
-                base {base.toFixed(2)}
-              </text>
-              <text x={right} y={y + 12} textAnchor="end" fontSize="10" fill="#7f8c8d">
-                mod {mod.toFixed(2)}
-              </text>
-            </g>
-          );
-        })}
-
-        {/* leyenda */}
-        <g>
-          <rect x={16} y={height - 38} width={width - 32} height={22} rx="11" fill="#f4f6f7" stroke="#e5e7e9" />
-          <circle cx={30} cy={height - 27} r="5" fill={accentGood} />
-          <text x={42} y={height - 23} fontSize="11" fill="#2c3e50">w positivo</text>
-          <circle cx={120} cy={height - 27} r="5" fill={accentBad} />
-          <text x={132} y={height - 23} fontSize="11" fill="#2c3e50">w negativo</text>
-          <circle cx={226} cy={height - 27} r="5" fill={accentPurple} />
-          <text x={238} y={height - 23} fontSize="11" fill="#2c3e50">variable modificada</text>
-          <text x={width - 22} y={height - 23} textAnchor="end" fontSize="11" fill="#7f8c8d">
-            eje central = 0
-          </text>
-        </g>
-      </svg>
-    );
-  };
-
   // =========================
   // Render
   // =========================
@@ -541,12 +379,12 @@ export default function AnalisisPesos() {
         Todo aquí es <strong>análisis</strong>: no reentrenamos. Solo recalculamos <strong>z</strong> y <strong>ReLU</strong> al modificar una variable.
       </div>
 
-      {/* ===================== 3(a) ===================== */}
+      {/* ===================== PRIMERA FILA ===================== */}
       <div style={{ display: "flex", gap: 22, alignItems: "stretch", flexWrap: "wrap" }}>
         {/* Heatmap */}
         <div style={{ ...card, width: 420 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-            <div style={{ fontWeight: 900 }}>3(a) Mapa de pesos</div>
+            <div style={{ fontWeight: 900 }}>Mapa de pesos</div>
             <div style={{ fontSize: 12, color: "#7f8c8d" }}>verde + / rojo −</div>
           </div>
 
@@ -630,10 +468,10 @@ export default function AnalisisPesos() {
 
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 6 }}>
             <div style={{ fontSize: 12, color: "#2c3e50" }}>
-              <strong>Top (∑|w|):</strong> {top3.map(v => v.name).join(", ")}
+              <strong>Variables mas influyentes:</strong> {top3.map(v => v.name).join(", ")}
             </div>
             <div style={{ fontSize: 12, color: "#7f8c8d" }}>
-              |w| máx: <strong style={{ color: "#2c3e50" }}>{maxGlobal.abs.toFixed(3)}</strong> en {inputLabels[maxGlobal.i]}→N{maxGlobal.j + 1}
+              Conexion mas fuerte: <strong style={{ color: "#2c3e50" }}>{inputLabels[maxGlobal.i]}→N{maxGlobal.j + 1}</strong>
             </div>
           </div>
         </div>
@@ -642,7 +480,7 @@ export default function AnalisisPesos() {
         <div style={{ ...card, width: 420 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div style={{ fontWeight: 900 }}>Influencia global</div>
-            <div style={{ fontSize: 12, color: "#7f8c8d" }}>∑|w| por variable</div>
+            <div style={{ fontSize: 12, color: "#7f8c8d" }}>comparacion por variable</div>
           </div>
 
           <svg width={388} height={310} style={{ marginTop: 10, display: "block" }}>
@@ -677,9 +515,20 @@ export default function AnalisisPesos() {
           </svg>
         </div>
 
-        {/* Panel control creativo */}
+      </div>
+
+      {/* ===================== SEGUNDA FILA ===================== */}
+      <div style={{ display: "flex", gap: 22, alignItems: "flex-start", flexWrap: "wrap", marginTop: 22 }}>
+        {/* Panel control */}
         <div style={{ ...card, width: 420 }}>
-          <div style={{ fontWeight: 900, marginBottom: 10 }}>3(b)–3(c) Control del experimento</div>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10, flexWrap: "wrap", marginBottom: 10 }}>
+            <div style={{ fontWeight: 900 }}>Control del experimento</div>
+            <div style={{ fontSize: 12, color: "#7f8c8d" }}>Nota: siempre se modifica el registro R3.</div>
+          </div>
+
+          <div style={{ marginBottom: 12, color: "#2c3e50", fontSize: 16, fontWeight: 900 }}>
+            Variable modificada: {inputLabels[varIdx]}
+          </div>
 
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 10 }}>
             {[0, 1, 2, 3].map(j => (
@@ -696,11 +545,6 @@ export default function AnalisisPesos() {
             <button onClick={() => setModo("debil")} style={chip(modo === "debil")}>
               Débil
             </button>
-          </div>
-
-          <div style={{ marginBottom: 8, color: "#7f8c8d", fontSize: 12 }}>
-            Registro fijo: <strong style={{ color: "#2c3e50" }}>R3</strong>. Variable modificada:{" "}
-            <strong style={{ color: "#2c3e50" }}>{inputLabels[varIdx]}</strong> (w={wSel.toFixed(3)})
           </div>
 
           <div style={{ background: "#ffffff", border: "1px solid #e5e7e9", borderRadius: 14, padding: "12px 12px" }}>
@@ -736,22 +580,11 @@ export default function AnalisisPesos() {
             </div>
           </div>
         </div>
-      </div>
 
-      {/* ===================== STORYBOARD VISUAL ===================== */}
-      <div style={{ display: "flex", gap: 22, alignItems: "flex-start", flexWrap: "wrap", marginTop: 22 }}>
         {/* Mini red */}
         <div style={{ ...card, width: 462 }}>
           <div style={{ fontWeight: 900, marginBottom: 10 }}>Qué entra a la neurona seleccionada</div>
           <MiniNetwork />
-        </div>
-
-        {/* Contribuciones z */}
-        <div style={{ ...card, width: 552 }}>
-          <div style={{ fontWeight: 900, marginBottom: 10 }}>
-            Qué cambia dentro de z (suma ponderada)
-          </div>
-          <ContributionsBars />
         </div>
 
         {/* Gauges */}
@@ -776,10 +609,6 @@ export default function AnalisisPesos() {
             <span style={{ fontWeight: 900 }}>
               ΔReLU = {(a1 - a0).toFixed(3)}
             </span>
-          </div>
-
-          <div style={{ marginTop: 8, fontSize: 12, color: "#7f8c8d" }}>
-            Nota visual: si z cruza 0, ReLU “corta” y la neurona se apaga.
           </div>
         </div>
       </div>
