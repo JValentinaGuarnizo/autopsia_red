@@ -1,10 +1,18 @@
 import { useState } from "react";
+import { theme, LightPanel } from "../styles/theme";
 
 export default function AnalisisActivaciones() {
 
     const [registroActivo, setRegistroActivo] = useState(0);
 
     const hiddenLabels = ["N1", "N2", "N3", "N4"];
+
+    const positiveColor = theme.accentPos;
+    const negativeColor = theme.accentNeg;
+    const textMain = theme.textOnDark;
+    const textMuted = theme.mutedOnDark;
+    const inputNode = theme.accentBlue;
+    const hiddenNode = theme.accentPurple;
 
     const activacionesRegistros = [
         [-12.53, -2.36, 6.81, -4.18],
@@ -54,7 +62,7 @@ export default function AnalisisActivaciones() {
     const fmtMinMax = (v) => Number(v).toFixed(2);
 
     return (
-        <div style={{ marginTop: "28px", textAlign: "center" }}>
+        <div style={{ marginTop: "28px", textAlign: "center", color: textMain }}>
 
             <h2>¿Qué neuronas se activan más?</h2>
 
@@ -66,14 +74,14 @@ export default function AnalisisActivaciones() {
                         onClick={() => setRegistroActivo(index)}
                         style={{
                             margin: "0 8px",
-                            padding: "6px 12px",
+                            padding: "8px 16px",
                             borderRadius: "6px",
                             border: "none",
                             cursor: "pointer",
                             backgroundColor:
-                                registroActivo === index ? "#ef5fb2" : "#ddd",
-                            color: registroActivo === index ? "#fff" : "#333",
-                            fontWeight: "600"
+                                registroActivo === index ? positiveColor : theme.borderDark,
+                            color: registroActivo === index ? theme.textOnLight : textMuted,
+                            fontWeight: "700"
                         }}
                     >
                         Registro {index + 1}
@@ -89,13 +97,13 @@ export default function AnalisisActivaciones() {
                 flexWrap: "wrap",
                 marginBottom: "14px",
                 fontSize: "13px",
-                color: "#2c3e50"
+                color: textMain
             }}>
-                <span><b style={{ color: "#2ecc71" }}>●</b> Peso positivo</span>
-                <span><b style={{ color: "#e74c3c" }}>●</b> Peso negativo</span>
-                <span><b style={{ color: "#2ecc71" }}>+</b> Sesgo &gt; 0</span>
-                <span><b style={{ color: "#e74c3c" }}>+</b> Sesgo ≤ 0</span>
-                <span><b style={{ color: "#999" }}>●</b> Neurona apagada (ReLU ≤ 0)</span>
+                <span><b style={{ color: positiveColor }}>●</b> Peso positivo</span>
+                <span><b style={{ color: negativeColor }}>●</b> Peso negativo</span>
+                <span><b style={{ color: positiveColor }}>+</b> Sesgo &gt; 0</span>
+                <span><b style={{ color: negativeColor }}>+</b> Sesgo ≤ 0</span>
+                <span><b style={{ color: "#475569" }}>●</b> Neurona apagada (ReLU ≤ 0)</span>
             </div>
 
             {/* Red básica */}
@@ -124,7 +132,7 @@ export default function AnalisisActivaciones() {
                         const intensidad = maxAct > 0 ? act / maxAct : 0;
 
                         const w = weights[i][j];
-                        const color = w >= 0 ? "#2ecc71" : "#e74c3c";
+                        const color = w >= 0 ? positiveColor : negativeColor;
 
                         return (
                             <line
@@ -134,9 +142,9 @@ export default function AnalisisActivaciones() {
                                 x2={x2}
                                 y2={y2}
                                 stroke={color}
-                                strokeOpacity={0.7}
-                                strokeWidth={1 + intensidad * 2}
-                            />
+                        strokeOpacity={0.45}
+                        strokeWidth={1.1 + intensidad * 2.2}
+                    />
                         );
                     })
                 )}
@@ -158,8 +166,8 @@ export default function AnalisisActivaciones() {
                             <circle
                                 cx={150}
                                 cy={y}
-                                r={22}
-                                fill="#84b6f4"
+                                r={24}
+                                fill={inputNode}
                             />
 
                             {/* Nombre variable */}
@@ -168,6 +176,7 @@ export default function AnalisisActivaciones() {
                                 y={y + 4}
                                 textAnchor="end"
                                 fontSize="12"
+                                fill={textMain}
                             >
                                 {label}
                             </text>
@@ -177,7 +186,7 @@ export default function AnalisisActivaciones() {
                                 x={150}
                                 y={y + 4}
                                 textAnchor="middle"
-                                fill="#fff"
+                                fill={theme.textOnLight}
                                 fontSize="12"
                                 fontWeight="bold"
                             >
@@ -194,22 +203,22 @@ export default function AnalisisActivaciones() {
                     const y = 100 + j * 100;
                     const valor = activacionesRegistros[registroActivo][j];
                     const b = biases[j];
-                    const biasColor = b > 0 ? "#2ecc71" : "#e74c3c";
+                    const biasColor = b > 0 ? positiveColor : negativeColor;
 
                     return (
                         <g key={j}>
                             <circle
                                 cx={500}
                                 cy={y}
-                                r={35}
-                                fill={valor <= 0 ? "#e0e0e0" : "#ef5fb2"}
+                                r={38}
+                                fill={valor <= 0 ? "#1f2937" : hiddenNode}
                             />
 
                             <text
                                 x={500}
                                 y={y + 5}
                                 textAnchor="middle"
-                                fill="#fff"
+                                fill={theme.textOnLight}
                                 fontSize="16"
                                 fontWeight="bold"
                             >
@@ -221,6 +230,7 @@ export default function AnalisisActivaciones() {
                                 y={y - 45}
                                 textAnchor="middle"
                                 fontSize="14"
+                                fill={textMuted}
                             >
                                 {label}
                             </text>
@@ -247,12 +257,11 @@ export default function AnalisisActivaciones() {
                 marginLeft: "auto",
                 marginRight: "auto",
                 textAlign: "left",
-                background: "#f6f7f9",
-                borderRadius: "10px",
-                padding: "14px 16px",
-                border: "1px solid #e6e8ee"
+                ...LightPanel,
+                borderRadius: "14px",
+                padding: "16px 18px"
             }}>
-                <div style={{ fontWeight: "700", marginBottom: "8px", color: "#0a607f" }}>
+                <div style={{ fontWeight: "800", marginBottom: "8px", color: theme.textOnLight }}>
                     Registro {registroActivo + 1}: activaciones en Capa 1 (ReLU)
                 </div>
 
@@ -267,8 +276,8 @@ export default function AnalisisActivaciones() {
                                 style={{
                                     padding: "6px 10px",
                                     borderRadius: "999px",
-                                    backgroundColor: activado ? "#ef5fb2" : "#e0e0e0",
-                                    color: activado ? "#fff" : "#333",
+                                    backgroundColor: activado ? positiveColor : "#e2e8f0",
+                                    color: activado ? theme.textOnLight : theme.mutedOnLight,
                                     fontWeight: "600"
                                 }}
                             >
@@ -286,13 +295,11 @@ export default function AnalisisActivaciones() {
                 marginLeft: "auto",
                 marginRight: "auto",
                 textAlign: "left",
-                background: "#0b2239",
+                ...LightPanel,
                 borderRadius: "14px",
-                padding: "18px 20px",
-                border: "1px solid #16324f",
-                boxShadow: "0 12px 26px rgba(0,0,0,0.18)"
+                padding: "18px 20px"
             }}>
-                <div style={{ fontWeight: "900", marginBottom: "14px", color: "#ffffff", fontSize: "20px" }}>
+                <div style={{ fontWeight: "900", marginBottom: "14px", color: theme.textOnLight, fontSize: "20px" }}>
                     Reporte de activación por neurona (promedio, min y max)
                 </div>
                 <div style={{
@@ -306,20 +313,20 @@ export default function AnalisisActivaciones() {
                             style={{
                                 background: "#ffffff",
                                 borderRadius: "14px",
-                                border: "2px solid #dbe6f5",
+                                border: `2px solid ${theme.borderLight}`,
                                 padding: "14px 16px",
-                                boxShadow: "0 10px 20px rgba(0,0,0,0.14)",
+                                boxShadow: "0 8px 16px rgba(2, 6, 23, 0.12)",
                                 display: "grid",
                                 gap: "10px"
                             }}
                         >
-                            <div style={{ fontWeight: "900", color: "#10263a", fontSize: "18px" }}>{item.label}</div>
-                            <div style={{ fontSize: "18px", color: "#10263a" }}>
-                                avg <strong style={{ color: "#2ecc71" }}>{fmtAvg(item.avg)}</strong>
+                            <div style={{ fontWeight: "900", color: theme.textOnLight, fontSize: "18px" }}>{item.label}</div>
+                            <div style={{ fontSize: "18px", color: theme.textOnLight }}>
+                                avg <strong style={{ color: positiveColor }}>{fmtAvg(item.avg)}</strong>
                             </div>
-                            <div style={{ display: "flex", gap: "14px", fontSize: "16px", color: "#2c3e50" }}>
-                                <span>min <strong style={{ color: "#0f5f99" }}>{fmtMinMax(item.min)}</strong></span>
-                                <span>max <strong style={{ color: "#e74c3c" }}>{fmtMinMax(item.max)}</strong></span>
+                            <div style={{ display: "flex", gap: "14px", fontSize: "16px", color: theme.textOnLight }}>
+                                <span>min <strong style={{ color: theme.accentBlue }}>{fmtMinMax(item.min)}</strong></span>
+                                <span>max <strong style={{ color: negativeColor }}>{fmtMinMax(item.max)}</strong></span>
                             </div>
                         </div>
                     ))}

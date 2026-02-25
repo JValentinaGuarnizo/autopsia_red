@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { theme, DarkCard, LightPanel } from "../styles/theme";
 
 export default function AnalisisPesosAntesDespues() {
   const inputLabels = ["Preg", "Gluc", "Pres", "Plieg", "Insul", "IMC", "Pedig", "Edad"];
@@ -92,24 +93,15 @@ export default function AnalisisPesosAntesDespues() {
   const frob = (m) => Math.sqrt(m.flat().reduce((acc, v) => acc + v * v, 0));
   const meanAbs = (m) => m.flat().reduce((acc, v) => acc + Math.abs(v), 0) / m.flat().length;
 
-  const card = {
-    background: "var(--panel-soft, #f4f6f7)",
-    border: "1px solid var(--panel-line, #e5e7e9)",
-    borderRadius: 16,
-    padding: "16px 18px",
-    color: "var(--text-main, #2c3e50)",
-    boxShadow: "0 10px 30px rgba(0,0,0,0.06)",
-  };
-
   const chip = (active) => ({
-    padding: "8px 12px",
+    padding: "10px 14px",
     borderRadius: 12,
-    border: "1px solid var(--panel-line, #d5d8dc)",
-    background: active ? "var(--accent-soft, #2c3e50)" : "var(--panel-soft, #f4f6f7)",
-    color: active ? "#ffffff" : "var(--text-main, #2c3e50)",
+    border: `1px solid ${theme.borderDark}`,
+    background: active ? theme.accentPos : theme.borderDark,
+    color: active ? theme.textOnLight : theme.mutedOnDark,
     cursor: "pointer",
-    fontSize: 14,
-    fontWeight: 700,
+    fontSize: 15,
+    fontWeight: 800,
   });
 
   const BiasRow = ({ name, before, after }) => {
@@ -117,14 +109,14 @@ export default function AnalisisPesosAntesDespues() {
     const hasChange = diffs.some((d) => Math.abs(d) > 1e-9);
     return (
       <div style={{ display: "grid", gap: 6, fontSize: 13 }}>
-        <div style={{ fontWeight: 800 }}>{name}</div>
-        <div style={{ color: "var(--text-muted, #7f8c8d)" }}>
+        <div style={{ fontWeight: 800, color: theme.textOnLight }}>{name}</div>
+        <div style={{ color: theme.mutedOnLight }}>
           before [{before.map(fmt).join(", ")}]
         </div>
-        <div style={{ color: "var(--text-muted, #7f8c8d)" }}>
+        <div style={{ color: theme.mutedOnLight }}>
           after  [{after.map(fmt).join(", ")}]
         </div>
-        <div style={{ color: hasChange ? "#2c3e50" : "#7f8c8d", fontWeight: 700 }}>
+        <div style={{ color: hasChange ? theme.textOnLight : theme.mutedOnLight, fontWeight: 700 }}>
           Δ [{diffs.map(fmt).join(", ")}]
         </div>
       </div>
@@ -146,27 +138,28 @@ export default function AnalisisPesosAntesDespues() {
     };
 
     return (
-      <div style={{ ...card, padding: "12px 14px" }}>
-        <div style={{ fontWeight: 800, fontSize: 14, marginBottom: 8 }}>{title}</div>
+      <div style={{ ...LightPanel, padding: "12px 14px" }}>
+        <div style={{ fontWeight: 800, fontSize: 14, marginBottom: 8, color: theme.textOnLight }}>{title}</div>
         <div style={gridStyle}>
           <div />
           {cols.map((c) => (
-            <div key={`c-${c}`} style={{ fontWeight: 700, textAlign: "center" }}>
+            <div key={`c-${c}`} style={{ fontWeight: 700, textAlign: "center", color: theme.textOnLight }}>
               {c}
             </div>
           ))}
           {rows.map((r, i) => (
             <React.Fragment key={`r-${r}`}>
-              <div style={{ fontWeight: 700, textAlign: "right", paddingRight: 4 }}>{r}</div>
+              <div style={{ fontWeight: 700, textAlign: "right", paddingRight: 4, color: theme.textOnLight }}>{r}</div>
               {cols.map((c, j) => {
                 const v = matrix[i][j];
                 const intensity = Math.min(1, Math.abs(v) / scale);
                 const neutral = Math.abs(v) < 1e-9;
-                const base = v >= 0 ? [46, 204, 113] : [231, 76, 60];
+                const base = v >= 0 ? [0, 245, 196] : [255, 77, 109];
                 const fill = neutral
-                  ? "rgba(203, 213, 225, 0.45)"
-                  : `rgba(${base[0]}, ${base[1]}, ${base[2]}, ${0.15 + intensity * 0.75})`;
+                  ? "#1e293b"
+                  : `rgba(${base[0]}, ${base[1]}, ${base[2]}, ${0.18 + intensity * 0.72})`;
                 const isHighlight = highlight && highlight.i === i && highlight.j === j;
+                const textColor = neutral ? theme.textOnDark : theme.textOnLight;
 
                 return (
                   <div
@@ -177,12 +170,12 @@ export default function AnalisisPesosAntesDespues() {
                       height: cell,
                       borderRadius: 8,
                       background: fill,
-                      border: isHighlight ? "2px solid var(--accent, #0d7f86)" : "1px solid var(--panel-line, #e5e7e9)",
+                      border: isHighlight ? `2px solid ${theme.accentPos}` : `1px solid ${theme.borderLight}`,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       fontSize: 14,
-                      color: "#1f2937",
+                      color: textColor,
                       fontWeight: 700,
                     }}
                   >
@@ -199,11 +192,11 @@ export default function AnalisisPesosAntesDespues() {
 
   return (
     <div style={{ display: "grid", gap: 18 }}>
-      <div style={{ ...card }}>
+      <div style={{ ...DarkCard }}>
         <div style={{ fontWeight: 900, fontSize: 16, marginBottom: 8 }}>
           Comparación visual de pesos (antes vs después)
         </div>
-        <div style={{ color: "var(--text-muted, #7f8c8d)", fontSize: 14 }}>
+        <div style={{ color: theme.mutedOnDark, fontSize: 14 }}>
           Una fila por capa con heatmaps: Antes, Después y Delta (Δ).
         </div>
         <div style={{ marginTop: 12, display: "flex", gap: 10, flexWrap: "wrap" }}>
@@ -227,10 +220,10 @@ export default function AnalisisPesosAntesDespues() {
         }
 
         return (
-          <div key={layer.name} style={{ ...card }}>
+          <div key={layer.name} style={{ ...DarkCard }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10 }}>
               <div style={{ fontWeight: 900 }}>{layer.name}</div>
-              <div style={{ fontSize: 13, color: "var(--text-muted, #7f8c8d)" }}>
+              <div style={{ fontSize: 13, color: theme.mutedOnDark }}>
                 ||ΔW||F = {fmt(frob(layer.diff))} · mean|ΔW| = {fmt(meanAbs(layer.diff))}
               </div>
             </div>
@@ -250,12 +243,18 @@ export default function AnalisisPesosAntesDespues() {
         );
       })}
 
-      <div style={{ ...card }}>
+      <div style={{ ...DarkCard }}>
         <div style={{ fontWeight: 900, marginBottom: 10 }}>Cambios en sesgos</div>
         <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))" }}>
-          <BiasRow name="b1 (Oculta 1)" before={b1_before} after={b1_after} />
-          <BiasRow name="b2 (Oculta 2)" before={b2_before} after={b2_after} />
-          <BiasRow name="b_out (Salida)" before={bout_before} after={bout_after} />
+          <div style={{ ...LightPanel }}>
+            <BiasRow name="b1 (Oculta 1)" before={b1_before} after={b1_after} />
+          </div>
+          <div style={{ ...LightPanel }}>
+            <BiasRow name="b2 (Oculta 2)" before={b2_before} after={b2_after} />
+          </div>
+          <div style={{ ...LightPanel }}>
+            <BiasRow name="b_out (Salida)" before={bout_before} after={bout_after} />
+          </div>
         </div>
       </div>
     </div>

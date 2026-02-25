@@ -4,7 +4,6 @@ import RedInteractivaCapa2 from '../components/RedInteractivaCapa2';
 import RedInteractivaSalida from '../components/RedInteractivaSalida';
 import AnalisisActivaciones from "../components/2.1_AnalisisActivacion";
 import AnalisisPesos from "../components/AnalisisPesos";
-import AnalisisActivacionesPromedio from "../components/AnalisisActivacionesPromedio";
 import AnalisisPesosAntesDespues from "../components/AnalisisPesosAntesDespues";
 import PipelineView from "../components/PipelineView";
 
@@ -104,13 +103,10 @@ export default function Home() {
                     4. Antes y después del entrenamiento
                 </h2>
                 <p className="section-desc">
-                    Comparación visual de pesos antes y después (por capa) y reporte de activaciones promedio.
+                    Comparación visual de pesos antes y después (por capa).
                 </p>
                 <div className="viz-frame">
                     <AnalisisPesosAntesDespues />
-                </div>
-                <div className="viz-frame">
-                    <AnalisisActivacionesPromedio />
                 </div>
             </section>
         </>

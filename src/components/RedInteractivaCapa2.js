@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { theme, LightPanel } from "../styles/theme";
 
 export default function RedInteractivaCapa2() {
     const [activeCell, setActiveCell] = useState(null);
@@ -27,8 +28,15 @@ export default function RedInteractivaCapa2() {
     const sumaConSesgo = [-0.03251303, 0.0904508];
     const activacion = [0, 0.09045079682259215];
 
-    const positiveColor = "#2ecc71";
-    const negativeColor = "#e74c3c";
+    const positiveColor = theme.accentPos;
+    const negativeColor = theme.accentNeg;
+    const textMain = theme.textOnDark;
+    const textMuted = theme.mutedOnDark;
+    const inputNode = theme.accentBlue;
+    const hiddenNode = theme.accentPurple;
+    const hiddenNode2 = theme.accentOrange;
+    const lightBorder = theme.borderLight;
+    const lightText = theme.textOnLight;
 
     const width = 850;
     const height = 400; // Ajustado para 8 inputs
@@ -48,13 +56,13 @@ export default function RedInteractivaCapa2() {
             <div>
 
                 <div style={{ display: "flex", justifyContent: "space-between", width: "650px", marginBottom: "20px", marginLeft: "25px" }}>
-                    <h4 style={{ fontSize: "17px", color: "#2c3e50" }}>
+                    <h4 style={{ fontSize: "17px", color: textMain }}>
                         Entrada
                     </h4>
-                    <h4 style={{ fontSize: "17px", color: "#2c3e50" }}>
+                    <h4 style={{ fontSize: "17px", color: textMain }}>
                         Capa 1
                     </h4>
-                    <h4 style={{ fontSize: "17px", color: "#2c3e50" }}>
+                    <h4 style={{ fontSize: "17px", color: textMain }}>
                         Capa 2
                     </h4>
                 </div>
@@ -76,8 +84,8 @@ export default function RedInteractivaCapa2() {
                                     y1={y1}
                                     x2={x2}
                                     y2={y2}
-                                    stroke="#064056"
-                                    strokeOpacity={0.15}
+                                    stroke="#334155"
+                                    strokeOpacity={0.45}
                                     strokeWidth={1}
                                 />
                             );
@@ -104,9 +112,10 @@ export default function RedInteractivaCapa2() {
                                         y1={y1}
                                         x2={x2}
                                         y2={y2}
-                                        stroke={isActive ? activeColor : "#064056"}
-                                        strokeOpacity={isActive ? 1 : 0.25}
-                                        strokeWidth={isActive ? 4 : 1}
+                                        stroke={activeColor}
+                                        strokeOpacity={isActive ? 0.95 : 0.45}
+                                        strokeWidth={isActive ? 2.5 : 1.2}
+                                        style={{ filter: isActive ? "drop-shadow(0 0 8px rgba(0,245,196,0.6))" : "none" }}
                                     />
                                     {isActive && (
                                         <text
@@ -130,14 +139,14 @@ export default function RedInteractivaCapa2() {
                         const y = 40 + i * realInputYSpacing;
                         return (
                             <g key={`real-${i}`}>
-                                <circle cx={realInputX} cy={y} r={14} fill="#84b6f4" />
+                                <circle cx={realInputX} cy={y} r={16} fill={inputNode} />
                                 <text
                                     x={realInputX - 25}
                                     y={y + 4}
                                     fontSize="14"
                                     fontWeight="bold"
                                     textAnchor="end"
-                                    fill="#7f8c8d"
+                                    fill={textMuted}
                                 >
                                     {label}
                                 </text>
@@ -150,14 +159,14 @@ export default function RedInteractivaCapa2() {
                         const y = 60 + i * inputYSpacing;
                         return (
                             <g key={i}>
-                                <circle cx={inputX} cy={y} r={20} fill="#bc409a" />
+                                <circle cx={inputX} cy={y} r={22} fill={hiddenNode} />
                                 <text
                                     x={inputX - 35}
                                     y={y + 4}
                                     fontSize="16"
                                     fontWeight="bold"
                                     textAnchor="end"
-                                    fill="#2c3e50"
+                                    fill={textMain}
                                 >
                                     {label}
                                 </text>
@@ -172,13 +181,13 @@ export default function RedInteractivaCapa2() {
 
                         return (
                             <g key={j}>
-                                <circle cx={hiddenX} cy={y} r={24} fill="#e67e22" />
+                                <circle cx={hiddenX} cy={y} r={27} fill={hiddenNode2} />
                                 <text
                                     x={hiddenX}
                                     y={y + 5}
                                     fontSize="17"
                                     textAnchor="middle"
-                                    fill="#fff"
+                                    fill={lightText}
                                     fontWeight="bold"
                                 >
                                     {label}
@@ -188,7 +197,7 @@ export default function RedInteractivaCapa2() {
                                     <text
                                         x={hiddenX + 80}
                                         y={y}
-                                        fill="#2c3e50"
+                                        fill={textMain}
                                         fontSize="16"
                                         fontWeight="600"
                                     >
@@ -198,7 +207,7 @@ export default function RedInteractivaCapa2() {
 
                                         {modoCalculo === "bias" && (
                                             <>
-                                                <tspan fill="#f39c12" fontWeight="bold">
+                                                <tspan fill={positiveColor} fontWeight="bold">
                                                     + ({biases[j].toFixed(3)})
                                                 </tspan>
                                             </>
@@ -206,15 +215,15 @@ export default function RedInteractivaCapa2() {
 
                                         {modoCalculo === "con" && (
                                             <>
-                                                <tspan fill="#2c3e50">
+                                                <tspan fill={textMain}>
                                                     {sumaSinSesgo[j].toFixed(3)} + (
                                                 </tspan>
 
-                                                <tspan fill="#f39c12" fontWeight="bold">
+                                                <tspan fill={positiveColor} fontWeight="bold">
                                                     {biases[j].toFixed(3)}
                                                 </tspan>
 
-                                                <tspan fill="#2c3e50">
+                                                <tspan fill={textMain}>
                                                     ) = {sumaConSesgo[j].toFixed(3)}
                                                 </tspan>
                                             </>
@@ -229,7 +238,7 @@ export default function RedInteractivaCapa2() {
                                         <text
                                             x={hiddenX + 80}
                                             y={y + 22}
-                                            fill={activacion[j] > 0 ? "#2ecc71" : "#999"}
+                                            fill={activacion[j] > 0 ? positiveColor : "#475569"}
                                             fontSize="18"
                                             fontWeight="bold"
                                         >
@@ -242,7 +251,7 @@ export default function RedInteractivaCapa2() {
                                     <text
                                         x={hiddenX + 60}
                                         y={y + 5}
-                                        fill="#f39c12"
+                                        fill={positiveColor}
                                         fontSize="16"
                                         fontWeight="bold"
                                     >
@@ -259,21 +268,23 @@ export default function RedInteractivaCapa2() {
             {/* 🟣 TABLAS MÁS PEQUEÑAS */}
             <div style={{ width: "350px" }}>
 
-                <h3 style={{ color: "#2c3e50", marginBottom: "5px", fontSize: "18px" }}>
+                <h3 style={{ color: textMain, marginBottom: "5px", fontSize: "18px" }}>
                     Función Detalles_capa
                 </h3>
 
-                <h4 style={{ color: "#0a607f", marginBottom: "15px", fontWeight: "600", fontSize: "16px" }}>
+                <h4 style={{ color: textMuted, marginBottom: "15px", fontWeight: "600", fontSize: "16px" }}>
                     Valores de pesos (Capa 2)
                 </h4>
 
                 <table style={{
+                    ...LightPanel,
+                    padding: 0,
                     borderCollapse: "collapse",
                     width: "100%",
-                    backgroundColor: "#ffffff",
-                    borderRadius: "8px",
+                    backgroundColor: theme.surfaceLight,
+                    borderRadius: "12px",
                     overflow: "hidden",
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.08)"
+                    boxShadow: "0 8px 18px rgba(2, 6, 23, 0.08)"
                 }}>
                     <tbody>
                         {weights.map((row, i) => (
@@ -293,9 +304,10 @@ export default function RedInteractivaCapa2() {
                                                 fontSize: "15px",
                                                 textAlign: "center",
                                                 cursor: "pointer",
-                                                borderBottom: "1px solid #eee",
-                                                backgroundColor: isActive ? activeColor : "#ffffff",
-                                                color: isActive ? "#ffffff" : "#2c3e50",
+                                                borderBottom: `1px solid ${lightBorder}`,
+                                                backgroundColor: theme.surfaceLight,
+                                                color: isActive ? activeColor : theme.textOnLight,
+                                                boxShadow: isActive ? `inset 0 0 0 2px ${activeColor}` : "none",
                                                 fontWeight: isActive ? "bold" : "500",
                                                 transition: "all 0.2s ease"
                                             }}
@@ -310,16 +322,18 @@ export default function RedInteractivaCapa2() {
                 </table>
 
                 {/* TABLA SESGOS */}
-                <h4 style={{ color: "#0a607f", marginTop: "25px", marginBottom: "10px", fontWeight: "600", fontSize: "16px" }}>
+                <h4 style={{ color: textMuted, marginTop: "25px", marginBottom: "10px", fontWeight: "600", fontSize: "16px" }}>
                     Valores de sesgos (Capa 2)
                 </h4>
                 <table style={{
+                    ...LightPanel,
+                    padding: 0,
                     borderCollapse: "collapse",
                     width: "100%",
-                    backgroundColor: "#ffffff",
-                    borderRadius: "8px",
+                    backgroundColor: theme.surfaceLight,
+                    borderRadius: "12px",
                     overflow: "hidden",
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.08)"
+                    boxShadow: "0 8px 18px rgba(2, 6, 23, 0.08)"
                 }}>
                     <tbody>
                         <tr>
@@ -340,17 +354,17 @@ export default function RedInteractivaCapa2() {
                                             fontSize: "15px",
                                             textAlign: "center",
                                             cursor: "pointer",
-                                            border: "1px solid #eee",
+                                            border: `1px solid ${lightBorder}`,
                                             backgroundColor:
                                                 selectedNeuron === j &&
                                                     (modoCalculo === "bias" || modoCalculo === "con")
-                                                    ? "#e67e22"
-                                                    : "#ffffff",
+                                                    ? hiddenNode2
+                                                    : theme.surfaceLight,
                                             color:
                                                 selectedNeuron === j &&
                                                     (modoCalculo === "bias" || modoCalculo === "con")
-                                                    ? "#ffffff"
-                                                    : "#2c3e50",
+                                                    ? lightText
+                                                    : theme.textOnLight,
                                             fontWeight: "600",
                                             transition: "all 0.2s ease"
                                         }}
@@ -364,7 +378,7 @@ export default function RedInteractivaCapa2() {
                 </table>
 
                 <h3 style={{
-                    color: "#2c3e50",
+                    color: textMain,
                     marginTop: "30px",
                     fontSize: "18px",
                     fontWeight: "600"
@@ -374,7 +388,7 @@ export default function RedInteractivaCapa2() {
                 <h4 style={{
                     marginTop: "15px",
                     marginBottom: "10px",
-                    color: "#0a607f",
+                    color: textMuted,
                     fontSize: "16px",
                     fontWeight: "600"
                 }}>
@@ -382,10 +396,12 @@ export default function RedInteractivaCapa2() {
                 </h4>
 
                 <table style={{
+                    ...LightPanel,
+                    padding: 0,
                     width: "100%",
-                    backgroundColor: "#ffffff",
-                    borderRadius: "8px",
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.08)"
+                    backgroundColor: theme.surfaceLight,
+                    borderRadius: "12px",
+                    boxShadow: "0 8px 18px rgba(2, 6, 23, 0.08)"
                 }}>
                     <tbody>
                         <tr>
@@ -402,18 +418,18 @@ export default function RedInteractivaCapa2() {
                                         fontSize: "15px",
                                         textAlign: "center",
                                         cursor: "pointer",
-                                        border: "1px solid #eee",
+                                        border: `1px solid ${lightBorder}`,
                                         backgroundColor:
                                             selectedNeuron === j &&
                                                 (modoCalculo === "sin" || modoCalculo === "con")
-                                                ? "#f39c12"
-                                                : "#ffffff",
+                                                ? positiveColor
+                                                : theme.surfaceLight,
 
                                         color:
                                             selectedNeuron === j &&
                                                 (modoCalculo === "sin" || modoCalculo === "con")
-                                                ? "#ffffff"
-                                                : "#2c3e50",
+                                                ? lightText
+                                                : theme.textOnLight,
                                         fontWeight: "600",
                                         transition: "all 0.2s ease"
                                     }}
@@ -428,7 +444,7 @@ export default function RedInteractivaCapa2() {
                 <h4 style={{
                     marginTop: "20px",
                     marginBottom: "10px",
-                    color: "#0a607f",
+                    color: textMuted,
                     fontSize: "16px",
                     fontWeight: "600"
                 }}>
@@ -436,10 +452,12 @@ export default function RedInteractivaCapa2() {
                 </h4>
 
                 <table style={{
+                    ...LightPanel,
+                    padding: 0,
                     width: "100%",
-                    backgroundColor: "#ffffff",
-                    borderRadius: "8px",
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.08)"
+                    backgroundColor: theme.surfaceLight,
+                    borderRadius: "12px",
+                    boxShadow: "0 8px 18px rgba(2, 6, 23, 0.08)"
                 }}>
                     <tbody>
                         <tr>
@@ -456,15 +474,15 @@ export default function RedInteractivaCapa2() {
                                         fontSize: "15px",
                                         textAlign: "center",
                                         cursor: "pointer",
-                                        border: "1px solid #eee",
+                                        border: `1px solid ${lightBorder}`,
                                         backgroundColor:
                                             selectedNeuron === j && modoCalculo === "con"
-                                                ? "#e67e22"
-                                                : "#ffffff",
+                                                ? hiddenNode2
+                                                : theme.surfaceLight,
                                         color:
                                             selectedNeuron === j && modoCalculo === "con"
-                                                ? "#ffffff"
-                                                : "#2c3e50",
+                                                ? lightText
+                                                : theme.textOnLight,
                                         fontWeight: "600",
                                         transition: "all 0.2s ease"
                                     }}
@@ -478,7 +496,7 @@ export default function RedInteractivaCapa2() {
                 <h4 style={{
                     marginTop: "20px",
                     marginBottom: "10px",
-                    color: "#0a607f",
+                    color: textMuted,
                     fontSize: "16px",
                     fontWeight: "600"
                 }}>
@@ -486,10 +504,12 @@ export default function RedInteractivaCapa2() {
                 </h4>
 
                 <table style={{
+                    ...LightPanel,
+                    padding: 0,
                     width: "100%",
-                    backgroundColor: "#ffffff",
-                    borderRadius: "8px",
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.08)"
+                    backgroundColor: theme.surfaceLight,
+                    borderRadius: "12px",
+                    boxShadow: "0 8px 18px rgba(2, 6, 23, 0.08)"
                 }}>
                     <tbody>
                         <tr>
@@ -507,15 +527,15 @@ export default function RedInteractivaCapa2() {
                                         fontSize: "15px",
                                         textAlign: "center",
                                         cursor: modoCalculo === "con" ? "pointer" : "not-allowed",
-                                        border: "1px solid #eee",
+                                        border: `1px solid ${lightBorder}`,
                                         backgroundColor:
                                             selectedNeuron === j && showActivacion
-                                                ? "#84b6f4"
-                                                : "#ffffff",
+                                                ? inputNode
+                                                : theme.surfaceLight,
                                         color:
                                             selectedNeuron === j && showActivacion
-                                                ? "#ffffff"
-                                                : "#2c3e50",
+                                                ? lightText
+                                                : theme.textOnLight,
                                         fontWeight: "600",
                                         transition: "all 0.2s ease"
                                     }}
