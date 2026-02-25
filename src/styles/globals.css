@@ -11,8 +11,8 @@ body,
 
 body {
   font-family: "Aptos", "Trebuchet MS", "Segoe UI", sans-serif;
-  font-size: 17px;
-  line-height: 1.5;
+  font-size: 19px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -41,9 +41,9 @@ body {
 }
 
 .app-container {
-  max-width: 1480px;
+  max-width: 1560px;
   margin: 0 auto;
-  padding: clamp(1rem, 2.2vw, 2rem);
+  padding: clamp(1.2rem, 2.5vw, 2.2rem);
 }
 
 .hero {
@@ -54,20 +54,20 @@ body {
 .hero-title {
   margin: 0;
   color: var(--title);
-  font-size: clamp(2.1rem, 3.8vw, 3.2rem);
+  font-size: clamp(2.4rem, 4.2vw, 3.6rem);
   letter-spacing: 0.01em;
 }
 
 .hero-subtitle {
   margin: 0.5rem 0 0 0;
   color: var(--text-muted);
-  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  font-size: clamp(1.3rem, 2.2vw, 1.75rem);
   font-weight: 650;
 }
 
 .section-surface {
   margin-bottom: 1.9rem;
-  padding: clamp(1rem, 2vw, 1.7rem);
+  padding: clamp(1.2rem, 2.4vw, 2rem);
   border: 1px solid var(--surface-border);
   border-radius: 20px;
   background: var(--surface);
@@ -80,13 +80,13 @@ body {
   padding-bottom: 0.55rem;
   border-bottom: 2px solid color-mix(in srgb, var(--accent) 35%, var(--surface-border));
   color: var(--title);
-  font-size: clamp(1.55rem, 2.5vw, 2.2rem);
+  font-size: clamp(1.75rem, 2.8vw, 2.45rem);
 }
 
 .section-desc {
   margin: 0.85rem 0 0 0;
   color: var(--text-muted);
-  font-size: clamp(1.05rem, 1.35vw, 1.15rem);
+  font-size: clamp(1.15rem, 1.55vw, 1.3rem);
 }
 
 .section-gap {
@@ -95,11 +95,12 @@ body {
 
 .viz-frame {
   margin-top: 1.15rem;
-  padding: 0.75rem;
+  padding: 1rem;
   border: 1px solid color-mix(in srgb, var(--surface-border) 85%, transparent);
   border-radius: 16px;
   background: color-mix(in srgb, var(--surface-strong) 94%, transparent);
   overflow: auto;
+  font-size: 1.05rem;
 }
 
 .viz-frame svg {

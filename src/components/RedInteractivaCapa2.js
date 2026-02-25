@@ -27,6 +27,9 @@ export default function RedInteractivaCapa2() {
     const sumaConSesgo = [-0.03251303, 0.0904508];
     const activacion = [0, 0.09045079682259215];
 
+    const positiveColor = "#2ecc71";
+    const negativeColor = "#e74c3c";
+
     const width = 850;
     const height = 400; // Ajustado para 8 inputs
 
@@ -45,13 +48,13 @@ export default function RedInteractivaCapa2() {
             <div>
 
                 <div style={{ display: "flex", justifyContent: "space-between", width: "650px", marginBottom: "20px", marginLeft: "25px" }}>
-                    <h4 style={{ fontSize: "15px", color: "#2c3e50" }}>
+                    <h4 style={{ fontSize: "17px", color: "#2c3e50" }}>
                         Entrada
                     </h4>
-                    <h4 style={{ fontSize: "15px", color: "#2c3e50" }}>
+                    <h4 style={{ fontSize: "17px", color: "#2c3e50" }}>
                         Capa 1
                     </h4>
-                    <h4 style={{ fontSize: "15px", color: "#2c3e50" }}>
+                    <h4 style={{ fontSize: "17px", color: "#2c3e50" }}>
                         Capa 2
                     </h4>
                 </div>
@@ -92,6 +95,8 @@ export default function RedInteractivaCapa2() {
                             const isActive =
                                 activeCell && activeCell.i === i && activeCell.j === j;
 
+                            const activeColor = value >= 0 ? positiveColor : negativeColor;
+
                             return (
                                 <g key={`${i}-${j}`}>
                                     <line
@@ -99,7 +104,7 @@ export default function RedInteractivaCapa2() {
                                         y1={y1}
                                         x2={x2}
                                         y2={y2}
-                                        stroke={isActive ? "#f39c12" : "#064056"}
+                                        stroke={isActive ? activeColor : "#064056"}
                                         strokeOpacity={isActive ? 1 : 0.25}
                                         strokeWidth={isActive ? 4 : 1}
                                     />
@@ -107,8 +112,8 @@ export default function RedInteractivaCapa2() {
                                         <text
                                             x={(x1 + x2) / 2}
                                             y={(y1 + y2) / 2}
-                                            fill="#f39c12"
-                                            fontSize="13"
+                                            fill={activeColor}
+                                            fontSize="15"
                                             fontWeight="bold"
                                             textAnchor="middle"
                                         >
@@ -129,7 +134,7 @@ export default function RedInteractivaCapa2() {
                                 <text
                                     x={realInputX - 25}
                                     y={y + 4}
-                                    fontSize="12"
+                                    fontSize="14"
                                     fontWeight="bold"
                                     textAnchor="end"
                                     fill="#7f8c8d"
@@ -149,7 +154,7 @@ export default function RedInteractivaCapa2() {
                                 <text
                                     x={inputX - 35}
                                     y={y + 4}
-                                    fontSize="14"
+                                    fontSize="16"
                                     fontWeight="bold"
                                     textAnchor="end"
                                     fill="#2c3e50"
@@ -171,7 +176,7 @@ export default function RedInteractivaCapa2() {
                                 <text
                                     x={hiddenX}
                                     y={y + 5}
-                                    fontSize="15"
+                                    fontSize="17"
                                     textAnchor="middle"
                                     fill="#fff"
                                     fontWeight="bold"
@@ -184,7 +189,7 @@ export default function RedInteractivaCapa2() {
                                         x={hiddenX + 80}
                                         y={y}
                                         fill="#2c3e50"
-                                        fontSize="14"
+                                        fontSize="16"
                                         fontWeight="600"
                                     >
                                         {modoCalculo === "sin" &&
@@ -225,7 +230,7 @@ export default function RedInteractivaCapa2() {
                                             x={hiddenX + 80}
                                             y={y + 22}
                                             fill={activacion[j] > 0 ? "#2ecc71" : "#999"}
-                                            fontSize="16"
+                                            fontSize="18"
                                             fontWeight="bold"
                                         >
                                             → {activacion[j] > 0 ? "😃" : "😶"}
@@ -238,7 +243,7 @@ export default function RedInteractivaCapa2() {
                                         x={hiddenX + 60}
                                         y={y + 5}
                                         fill="#f39c12"
-                                        fontSize="14"
+                                        fontSize="16"
                                         fontWeight="bold"
                                     >
                                         + ({biases[j].toFixed(3)})
@@ -254,11 +259,11 @@ export default function RedInteractivaCapa2() {
             {/* 🟣 TABLAS MÁS PEQUEÑAS */}
             <div style={{ width: "350px" }}>
 
-                <h3 style={{ color: "#2c3e50", marginBottom: "5px", fontSize: "16px" }}>
+                <h3 style={{ color: "#2c3e50", marginBottom: "5px", fontSize: "18px" }}>
                     Función Detalles_capa
                 </h3>
 
-                <h4 style={{ color: "#0a607f", marginBottom: "15px", fontWeight: "600", fontSize: "14px" }}>
+                <h4 style={{ color: "#0a607f", marginBottom: "15px", fontWeight: "600", fontSize: "16px" }}>
                     Valores de pesos (Capa 2)
                 </h4>
 
@@ -276,6 +281,7 @@ export default function RedInteractivaCapa2() {
                                 {row.map((value, j) => {
                                     const isActive =
                                         activeCell && activeCell.i === i && activeCell.j === j;
+                                    const activeColor = value >= 0 ? positiveColor : negativeColor;
 
                                     return (
                                         <td
@@ -283,12 +289,12 @@ export default function RedInteractivaCapa2() {
                                             onMouseEnter={() => setActiveCell({ i, j })}
                                             onMouseLeave={() => setActiveCell(null)}
                                             style={{
-                                                padding: "7px 10px",
-                                                fontSize: "13px",
+                                                padding: "9px 12px",
+                                                fontSize: "15px",
                                                 textAlign: "center",
                                                 cursor: "pointer",
                                                 borderBottom: "1px solid #eee",
-                                                backgroundColor: isActive ? "#f39c12" : "#ffffff",
+                                                backgroundColor: isActive ? activeColor : "#ffffff",
                                                 color: isActive ? "#ffffff" : "#2c3e50",
                                                 fontWeight: isActive ? "bold" : "500",
                                                 transition: "all 0.2s ease"
@@ -304,7 +310,7 @@ export default function RedInteractivaCapa2() {
                 </table>
 
                 {/* TABLA SESGOS */}
-                <h4 style={{ color: "#0a607f", marginTop: "25px", marginBottom: "10px", fontWeight: "600", fontSize: "14px" }}>
+                <h4 style={{ color: "#0a607f", marginTop: "25px", marginBottom: "10px", fontWeight: "600", fontSize: "16px" }}>
                     Valores de sesgos (Capa 2)
                 </h4>
                 <table style={{
@@ -330,8 +336,8 @@ export default function RedInteractivaCapa2() {
                                         onMouseEnter={() => setActiveBias(j)}
                                         onMouseLeave={() => setActiveBias(null)}
                                         style={{
-                                            padding: "7px 10px",
-                                            fontSize: "13px",
+                                            padding: "9px 12px",
+                                            fontSize: "15px",
                                             textAlign: "center",
                                             cursor: "pointer",
                                             border: "1px solid #eee",
@@ -360,7 +366,7 @@ export default function RedInteractivaCapa2() {
                 <h3 style={{
                     color: "#2c3e50",
                     marginTop: "30px",
-                    fontSize: "16px",
+                    fontSize: "18px",
                     fontWeight: "600"
                 }}>
                     Función Pasando_por_capa
@@ -369,7 +375,7 @@ export default function RedInteractivaCapa2() {
                     marginTop: "15px",
                     marginBottom: "10px",
                     color: "#0a607f",
-                    fontSize: "14px",
+                    fontSize: "16px",
                     fontWeight: "600"
                 }}>
                     Suma ponderada sin sesgo
@@ -392,8 +398,8 @@ export default function RedInteractivaCapa2() {
                                         setShowActivacion(false);
                                     }}
                                     style={{
-                                        padding: "7px 10px",
-                                        fontSize: "13px",
+                                        padding: "9px 12px",
+                                        fontSize: "15px",
                                         textAlign: "center",
                                         cursor: "pointer",
                                         border: "1px solid #eee",
@@ -423,7 +429,7 @@ export default function RedInteractivaCapa2() {
                     marginTop: "20px",
                     marginBottom: "10px",
                     color: "#0a607f",
-                    fontSize: "14px",
+                    fontSize: "16px",
                     fontWeight: "600"
                 }}>
                     Suma ponderada con sesgo
@@ -446,8 +452,8 @@ export default function RedInteractivaCapa2() {
                                         setShowActivacion(false);
                                     }}
                                     style={{
-                                        padding: "7px 10px",
-                                        fontSize: "13px",
+                                        padding: "9px 12px",
+                                        fontSize: "15px",
                                         textAlign: "center",
                                         cursor: "pointer",
                                         border: "1px solid #eee",
@@ -473,7 +479,7 @@ export default function RedInteractivaCapa2() {
                     marginTop: "20px",
                     marginBottom: "10px",
                     color: "#0a607f",
-                    fontSize: "14px",
+                    fontSize: "16px",
                     fontWeight: "600"
                 }}>
                     Activación (ReLU)
@@ -497,8 +503,8 @@ export default function RedInteractivaCapa2() {
                                         }
                                     }}
                                     style={{
-                                        padding: "7px 10px",
-                                        fontSize: "13px",
+                                        padding: "9px 12px",
+                                        fontSize: "15px",
                                         textAlign: "center",
                                         cursor: modoCalculo === "con" ? "pointer" : "not-allowed",
                                         border: "1px solid #eee",
