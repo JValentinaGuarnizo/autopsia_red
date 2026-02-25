@@ -9,8 +9,8 @@ export default function AnalisisActivaciones() {
 
     const positiveColor = theme.accentPos;
     const negativeColor = theme.accentNeg;
-    const textMain = theme.textOnDark;
-    const textMuted = theme.mutedOnDark;
+    const textMain = theme.textPrimary;
+    const textMuted = theme.textSecondary;
     const inputNode = theme.accentBlue;
     const hiddenNode = theme.accentPurple;
 
@@ -142,9 +142,9 @@ export default function AnalisisActivaciones() {
                                 x2={x2}
                                 y2={y2}
                                 stroke={color}
-                        strokeOpacity={0.45}
-                        strokeWidth={1.1 + intensidad * 2.2}
-                    />
+                                strokeOpacity={0.45}
+                                strokeWidth={1.1 + intensidad * 2.2}
+                            />
                         );
                     })
                 )}

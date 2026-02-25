@@ -18,24 +18,32 @@ body {
 }
 
 .app-shell {
-  --bg-start: #f8fafc;
-  --bg-end: #f1f5f9;
-  --text-main: #0f172a;
+  --bg-start: #F4F7FB;
+  --bg-end: #E9EEF5;
+  --text-main: #0F172A;
   --text-muted: #475569;
-  --title: #1e293b;
-  --surface: rgba(255, 255, 255, 0.9);
-  --surface-strong: #ffffff;
-  --surface-border: #e2e8f0;
-  --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-  --accent: #0d9488;
-  --accent-soft: #0891b2;
-  --panel-soft: #f8fafc;
-  --panel-line: #cbd5e1;
-  min-height: 100vh;
+  --accent-pos: #00C2A8;
+  --accent-neg: #E5484D;
+  --accent-purple: #7C3AED;
+  --accent-blue: #2563EB;
+  --accent-highlight: #14B8A6;
+  --border-light: #D4DCE6;
+  --surface-white: #FFFFFF;
+  --title: #0F172A;
+  --surface: #FFFFFF;
+  --surface-strong: #FFFFFF;
+  --surface-border: #D4DCE6;
+  --shadow: 0 4px 12px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.08);
+
   background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+  min-height: 100vh;
   color: var(--text-main);
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --accent: var(--accent-highlight);
+  --accent-soft: var(--accent-blue);
+  --panel-line: var(--border-light);
 }
+
 
 .app-container {
   max-width: 1560px;
@@ -63,14 +71,19 @@ body {
 }
 
 .section-surface {
-  margin-bottom: 1.9rem;
-  padding: clamp(1.2rem, 2.4vw, 2rem);
+  margin-bottom: 2.2rem;
+  padding: clamp(1.4rem, 2.6vw, 2.4rem);
   border: 1px solid var(--surface-border);
   border-radius: 20px;
   background: var(--surface);
-  backdrop-filter: blur(3px);
   box-shadow: var(--shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
+
+.section-surface:hover {
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
 
 .section-title {
   margin: 0;
@@ -161,7 +174,7 @@ body {
 .pipeline-node.active circle {
   stroke: var(--accent);
   stroke-width: 5;
-  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--accent) 50%, transparent));
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--accent) 30%, transparent));
 }
 
 .pipeline-node:hover circle,
@@ -199,8 +212,8 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(4px);
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(8px);
   z-index: 1000;
   display: flex;
   justify-content: flex-end;

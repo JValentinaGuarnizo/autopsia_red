@@ -30,13 +30,13 @@ export default function RedInteractivaCapa2() {
 
     const positiveColor = theme.accentPos;
     const negativeColor = theme.accentNeg;
-    const textMain = theme.textOnDark;
-    const textMuted = theme.mutedOnDark;
+    const textMain = theme.textPrimary;
+    const textMuted = theme.textSecondary;
     const inputNode = theme.accentBlue;
     const hiddenNode = theme.accentPurple;
-    const hiddenNode2 = theme.accentOrange;
-    const lightBorder = theme.borderLight;
-    const lightText = theme.textOnLight;
+    const hiddenNode2 = theme.accentPurple; // Cambiado para consistencia
+    const lightBorder = theme.border;
+    const lightText = "#FFFFFF";
 
     const width = 850;
     const height = 400; // Ajustado para 8 inputs
@@ -115,7 +115,7 @@ export default function RedInteractivaCapa2() {
                                         stroke={activeColor}
                                         strokeOpacity={isActive ? 0.95 : 0.45}
                                         strokeWidth={isActive ? 2.5 : 1.2}
-                                        style={{ filter: isActive ? "drop-shadow(0 0 8px rgba(0,245,196,0.6))" : "none" }}
+                                        style={{ filter: isActive ? `drop-shadow(0 0 6px ${activeColor}88)` : "none" }}
                                     />
                                     {isActive && (
                                         <text

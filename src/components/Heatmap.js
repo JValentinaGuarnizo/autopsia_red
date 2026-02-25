@@ -9,44 +9,38 @@ export default function Heatmap({ palette = 'dia' }) {
         [0.3, -0.3, 0.2, 0.1]
     ];
 
-    // Función para elegir color según signo y magnitud
-    const getColor = (v) => {
-        const absV = Math.abs(v);
-        if (v >= 0) {
-            if (absV < 0.2) return colors[0]; // azul medio
-            else if (absV < 0.4) return colors[1]; // azul claro
-            else if (absV < 0.6) return colors[4]; // azul oscuro
-            else return colors[2]; // rosa fuerte
-        } else {
-            if (absV < 0.2) return colors[2]; // rosa fuerte
-            else if (absV < 0.4) return colors[3]; // rosa oscuro
-            else if (absV < 0.6) return colors[1]; // azul claro
-            else return colors[4]; // azul oscuro
-        }
-    };
+    const maxWeight = Math.max(...matrix.flat().map(v => Math.abs(v)), 0.001);
 
     return (
-        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${matrix[0].length}, 50px)`, gap: '5px', marginTop: '2rem' }}>
-            {matrix.flat().map((v, idx) => (
-                <div
-                    key={idx}
-                    style={{
-                        width: 50,
-                        height: 50,
-                        backgroundColor: getColor(v), // color sólido según valor
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: '#1a1a1a', // texto legible sobre colores
-                        fontSize: '12px',
-                        borderRadius: '4px',
-                        border: '1px solid #0a607f', // borde para resaltar
-                        fontWeight: 'bold'
-                    }}
-                >
-                    {v.toFixed(2)}
-                </div>
-            ))}
+        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${matrix[0].length}, 50px)`, gap: '8px', marginTop: '24px' }}>
+            {matrix.flat().map((v, idx) => {
+                const intensity = Math.min(1, Math.abs(v) / maxWeight);
+                const color = v >= 0 ? theme.accentPos : theme.accentNeg;
+                return (
+                    <div
+                        key={idx}
+                        style={{
+                            width: 50,
+                            height: 50,
+                            backgroundColor: Math.abs(v) < 0.01 ? theme.surfaceAlt : color,
+                            opacity: Math.abs(v) < 0.01 ? 1 : 0.2 + intensity * 0.8,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: Math.abs(v) < 0.01 ? theme.textSecondary : "#FFFFFF",
+                            fontSize: '13px',
+                            borderRadius: '10px',
+                            border: `1px solid ${theme.border}`,
+                            fontWeight: 'bold',
+                            boxShadow: "0 2px 4px rgba(0,0,0,0.02)"
+                        }}
+                        title={`Valor: ${v.toFixed(4)}`}
+                    >
+                        {v.toFixed(2)}
+                    </div>
+                );
+            })}
         </div>
     );
+
 }

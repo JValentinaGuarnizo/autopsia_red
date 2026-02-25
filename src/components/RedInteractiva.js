@@ -37,12 +37,12 @@ export default function RedInteractiva() {
 
     const positiveColor = theme.accentPos;
     const negativeColor = theme.accentNeg;
-    const textMain = theme.textOnDark;
-    const textMuted = theme.mutedOnDark;
+    const textMain = theme.textPrimary;
+    const textMuted = theme.textSecondary;
     const inputNode = theme.accentBlue;
     const hiddenNode = theme.accentPurple;
-    const lightBorder = theme.borderLight;
-    const lightText = theme.textOnLight;
+    const lightBorder = theme.border;
+    const lightText = "#FFFFFF"; // Texto sobre nodos de color siempre blanco para contraste
 
     const width = 900;
     const height = 560;
@@ -93,7 +93,7 @@ export default function RedInteractiva() {
                                         stroke={activeColor}
                                         strokeOpacity={isActive ? 0.95 : 0.45}
                                         strokeWidth={isActive ? 2.5 : 1.2}
-                                        style={{ filter: isActive ? "drop-shadow(0 0 8px rgba(0,245,196,0.6))" : "none" }}
+                                        style={{ filter: isActive ? `drop-shadow(0 0 6px ${activeColor}88)` : "none" }}
                                     />
                                     {isActive && (
                                         <text
@@ -261,8 +261,8 @@ export default function RedInteractiva() {
                                                 textAlign: "center",
                                                 cursor: "pointer",
                                                 borderBottom: `1px solid ${lightBorder}`,
-                                                backgroundColor: theme.surfaceLight,
-                                                color: isActive ? activeColor : theme.textOnLight,
+                                                backgroundColor: theme.surface,
+                                                color: isActive ? activeColor : theme.textPrimary,
                                                 boxShadow: isActive ? `inset 0 0 0 2px ${activeColor}` : "none",
                                                 fontWeight: isActive ? "bold" : "500",
                                                 transition: "all 0.2s ease"

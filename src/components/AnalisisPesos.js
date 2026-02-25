@@ -221,7 +221,7 @@ export default function AnalisisPesos() {
   const accentGood = theme.accentPos;
   const accentBad = theme.accentNeg;
   const accentViolet = theme.accentPurple;
-  const accentPurple = theme.accentDeepPurple;
+  const accentPurple = theme.accentPurple;
 
   const renderSignedBar = (value, maxAbs) => {
     const half = 50;
@@ -231,8 +231,8 @@ export default function AnalisisPesos() {
       <div style={{
         position: "relative",
         height: 14,
-        background: "#e2e8f0",
-        border: `1px solid ${theme.borderLight}`,
+        background: theme.surfaceAlt,
+        border: `1px solid ${theme.border}`,
         borderRadius: 999,
         overflow: "hidden"
       }}>
@@ -275,7 +275,7 @@ export default function AnalisisPesos() {
     return (
       <svg width={430} height={330} style={{ display: "block", width: "100%", maxWidth: 430, height: "auto" }}>
         {/* Fondo suave */}
-        <rect x="0" y="0" width="430" height="330" rx="16" fill={theme.surfaceDark} stroke={theme.borderDark} />
+        <rect x="0" y="0" width="430" height="330" rx="16" fill={theme.surface} stroke={theme.border} />
 
         {/* Inputs */}
         {inputLabels.map((name, i) => {
@@ -373,8 +373,8 @@ export default function AnalisisPesos() {
 
     return (
       <svg width={w} height={h} style={{ display: "block", width: "100%", maxWidth: w, height: "auto" }}>
-        <rect x="0" y="0" width={w} height={h} rx="16" fill={theme.surfaceDark} stroke={theme.borderDark} />
-        <text x="14" y="24" fontSize="12" fill={theme.textOnDark} style={{ fontWeight: 800 }}>{title}</text>
+        <rect x="0" y="0" width={w} height={h} rx="16" fill={theme.surface} stroke={theme.border} />
+        <text x="14" y="24" fontSize="12" fill={theme.textPrimary} style={{ fontWeight: 800 }}>{title}</text>
 
         {/* Eje */}
         <line x1={centerX} y1={40} x2={centerX} y2={h - 24} stroke="#334155" strokeWidth="6" strokeLinecap="round" />
@@ -516,13 +516,13 @@ export default function AnalisisPesos() {
                   width="130"
                   height="44"
                   rx="12"
-                  fill={theme.textOnLight}
-                  opacity="0.92"
+                  fill={theme.textPrimary}
+                  opacity="0.95"
                 />
-                <text x={Math.min(250, hoverCell.x + 14) + 10} y={Math.max(8, hoverCell.y - 24) + 18} fontSize="12" fill={theme.textOnDark}>
+                <text x={Math.min(250, hoverCell.x + 14) + 10} y={Math.max(8, hoverCell.y - 24) + 18} fontSize="12" fill="#FFFFFF">
                   {inputLabels[hoverCell.i]} → N{hoverCell.j + 1}
                 </text>
-                <text x={Math.min(250, hoverCell.x + 14) + 10} y={Math.max(8, hoverCell.y - 24) + 34} fontSize="13" fill={theme.textOnDark} style={{ fontWeight: 800 }}>
+                <text x={Math.min(250, hoverCell.x + 14) + 10} y={Math.max(8, hoverCell.y - 24) + 34} fontSize="13" fill="#FFFFFF" style={{ fontWeight: 800 }}>
                   w = {hoverCell.w.toFixed(3)}
                 </text>
               </g>
@@ -698,8 +698,8 @@ export default function AnalisisPesos() {
                       border: isSelected
                         ? `2px solid ${accentGood}`
                         : isBest
-                        ? `2px solid ${accentPurple}`
-                        : `1px solid ${theme.borderLight}`,
+                          ? `2px solid ${accentPurple}`
+                          : `1px solid ${theme.borderLight}`,
                       borderRadius: 14,
                       padding: "12px 14px",
                       textAlign: "left",

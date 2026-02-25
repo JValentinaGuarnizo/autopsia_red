@@ -154,12 +154,12 @@ export default function AnalisisPesosAntesDespues() {
                 const v = matrix[i][j];
                 const intensity = Math.min(1, Math.abs(v) / scale);
                 const neutral = Math.abs(v) < 1e-9;
-                const base = v >= 0 ? [0, 245, 196] : [255, 77, 109];
+                const base = v >= 0 ? [0, 194, 168] : [229, 72, 77]; // Nuevos tokens accentPos/Neg en RGB aproximado
                 const fill = neutral
-                  ? "#1e293b"
+                  ? theme.surfaceAlt
                   : `rgba(${base[0]}, ${base[1]}, ${base[2]}, ${0.18 + intensity * 0.72})`;
                 const isHighlight = highlight && highlight.i === i && highlight.j === j;
-                const textColor = neutral ? theme.textOnDark : theme.textOnLight;
+                const textColor = neutral ? theme.textSecondary : theme.textPrimary;
 
                 return (
                   <div
