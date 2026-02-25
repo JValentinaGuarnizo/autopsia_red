@@ -12,7 +12,7 @@ export default function Home() {
             <main className="app-container">
                 <header className="hero">
                     <h1 className="hero-title">Autopsia de una Red Neuronal</h1>
-                    <p className="hero-subtitle">Juana Valentina Guarnizo</p>
+                    <p className="hero-subtitle">Juana Valentina Guarnizo , Jhon Ángel Castellanos </p>
                 </header>
 
                 {/* Sección 1 */}
