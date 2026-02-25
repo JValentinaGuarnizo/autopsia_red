@@ -44,7 +44,7 @@ export default function AnalisisActivaciones() {
     const hiddenYSpacing = 100;
 
     return (
-        <div style={{ marginTop: "60px", textAlign: "center" }}>
+        <div style={{ marginTop: "28px", textAlign: "center" }}>
 
             <h2>¿Qué neuronas se activan más?</h2>
 
@@ -89,7 +89,7 @@ export default function AnalisisActivaciones() {
             </div>
 
             {/* Red básica */}
-            <svg width={900} height={500}>
+            <svg width={900} height={500} style={{ width: "100%", maxWidth: 900, height: "auto" }}>
 
 
                 {/* ARISTAS Entrada -> Capa 1 */}

@@ -40,7 +40,7 @@ export default function RedInteractivaCapa2() {
     const outputYSpacing = 200; // 1 node
 
     return (
-        <div style={{ display: "flex", justifyContent: "center", gap: "40px", marginTop: "40px" }}>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", flexWrap: "wrap", gap: "28px", marginTop: "24px" }}>
 
             {/* 🔵 RED GRANDE */}
             <div>
@@ -60,7 +60,7 @@ export default function RedInteractivaCapa2() {
                     </h4>
                 </div>
 
-                <svg width={width} height={height}>
+                <svg width={width} height={height} style={{ width: "100%", maxWidth: width, height: "auto" }}>
 
                     {/* CONEXIONES ESTÁTICAS (Entrada -> Capa 1) */}
                     {realInputLabels.map((_, i) =>

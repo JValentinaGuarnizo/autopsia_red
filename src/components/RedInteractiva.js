@@ -44,7 +44,7 @@ export default function RedInteractiva() {
     const hiddenYSpacing = 110;
 
     return (
-        <div style={{ display: "flex", justifyContent: "center", gap: "40px", marginTop: "40px" }}>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", flexWrap: "wrap", gap: "28px", marginTop: "24px" }}>
 
             {/* 🔵 RED GRANDE */}
             <div>
@@ -58,7 +58,7 @@ export default function RedInteractiva() {
                     </h4>
                 </div>
 
-                <svg width={width} height={height}>
+                <svg width={width} height={height} style={{ width: "100%", maxWidth: width, height: "auto" }}>
 
                     {/* ARISTAS */}
                     {weights.map((row, i) =>
@@ -209,7 +209,7 @@ export default function RedInteractiva() {
             </div>
 
             {/* 🟣 TABLAS MÁS PEQUEÑAS */}
-            <div style={{ width: "350px" }}>
+            <div style={{ width: "100%", maxWidth: "350px" }}>
 
                 <h3 style={{ color: "#2c3e50", marginBottom: "5px", fontSize: "16px" }}>
                     Función Detalles_capa

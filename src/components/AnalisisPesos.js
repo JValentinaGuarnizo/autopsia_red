@@ -170,22 +170,22 @@ export default function AnalisisPesos() {
   // Estilos (coherentes con tu gris + verde/rojo)
   // =========================
   const card = {
-    background: "#f4f6f7",
-    border: "1px solid #e5e7e9",
-    borderRadius: 14,
-    padding: "14px 16px",
-    color: "#2c3e50",
-    boxShadow: "0 10px 30px rgba(0,0,0,0.05)",
+    background: "var(--panel-soft, #f4f6f7)",
+    border: "1px solid var(--panel-line, #e5e7e9)",
+    borderRadius: 16,
+    padding: "16px 18px",
+    color: "var(--text-main, #2c3e50)",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.06)",
   };
 
   const chip = (active) => ({
-    padding: "8px 12px",
+    padding: "9px 12px",
     borderRadius: 12,
-    border: "1px solid #d5d8dc",
-    background: active ? "#2c3e50" : "#f4f6f7",
-    color: active ? "white" : "#2c3e50",
+    border: "1px solid var(--panel-line, #d5d8dc)",
+    background: active ? "var(--accent-soft, #2c3e50)" : "var(--panel-soft, #f4f6f7)",
+    color: active ? "#ffffff" : "var(--text-main, #2c3e50)",
     cursor: "pointer",
-    fontSize: 13,
+    fontSize: 14,
     transition: "transform .12s ease, background .12s ease",
     transform: active ? "translateY(-1px)" : "translateY(0px)"
   });
@@ -210,7 +210,7 @@ export default function AnalisisPesos() {
     const neuronR = 26;
 
     return (
-      <svg width={430} height={330} style={{ display: "block" }}>
+      <svg width={430} height={330} style={{ display: "block", width: "100%", maxWidth: 430, height: "auto" }}>
         {/* Fondo suave */}
         <rect x="0" y="0" width="430" height="330" rx="16" fill="#ffffff" stroke="#e5e7e9" />
 
@@ -302,7 +302,7 @@ export default function AnalisisPesos() {
     const active = a > 0;
 
     return (
-      <svg width={w} height={h} style={{ display: "block" }}>
+      <svg width={w} height={h} style={{ display: "block", width: "100%", maxWidth: w, height: "auto" }}>
         <rect x="0" y="0" width={w} height={h} rx="16" fill="#ffffff" stroke="#e5e7e9" />
         <text x="14" y="24" fontSize="12" fill="#2c3e50" style={{ fontWeight: 800 }}>{title}</text>
 
@@ -339,7 +339,7 @@ export default function AnalisisPesos() {
           ReLU
         </text>
         <text x="26" y={h - 32} fontSize="12" fill="#2c3e50">
-          {active ? "Activa 😃" : "Apagada 😶"}
+          {active ? "Activa" : "Apagada"}
         </text>
         <text x={w - 26} y={h - 36} textAnchor="end" fontSize="13" fill="#2c3e50" style={{ fontWeight: 900 }}>
           {a.toFixed(3)}
@@ -352,7 +352,7 @@ export default function AnalisisPesos() {
   // Render
   // =========================
   return (
-    <div style={{ marginTop: "70px" }}>
+    <div style={{ marginTop: "12px" }}>
       {/* CSS pequeño para “wow” */}
       <style>{`
         .pulse {
@@ -372,23 +372,16 @@ export default function AnalisisPesos() {
         }
       `}</style>
 
-      <h2 style={{ color: "#2c3e50", marginBottom: 8 }}>
-        Sección 3 — ¿Qué variables tienen más peso? (post-entrenamiento)
-      </h2>
-      <div style={{ color: "#7f8c8d", fontSize: 13, marginBottom: 18 }}>
-        Todo aquí es <strong>análisis</strong>: no reentrenamos. Solo recalculamos <strong>z</strong> y <strong>ReLU</strong> al modificar una variable.
-      </div>
-
       {/* ===================== PRIMERA FILA ===================== */}
-      <div style={{ display: "flex", gap: 22, alignItems: "stretch", flexWrap: "wrap" }}>
+      <div style={{ display: "flex", gap: 18, alignItems: "stretch", flexWrap: "wrap" }}>
         {/* Heatmap */}
-        <div style={{ ...card, width: 420 }}>
+        <div style={{ ...card, flex: "1 1 450px", minWidth: 320 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div style={{ fontWeight: 900 }}>Mapa de pesos</div>
-            <div style={{ fontSize: 12, color: "#7f8c8d" }}>verde + / rojo −</div>
+            <div style={{ fontSize: 13, color: "#7f8c8d" }}>verde + / rojo −</div>
           </div>
 
-          <svg width={388} height={310} style={{ marginTop: 10, display: "block" }}>
+          <svg width={388} height={310} style={{ marginTop: 10, display: "block", width: "100%", maxWidth: 388, height: "auto" }}>
             {/* grid */}
             {weights.map((fila, i) =>
               fila.map((w, j) => {
@@ -422,7 +415,7 @@ export default function AnalisisPesos() {
                         transition: "all .18s ease"
                       }}
                     />
-                    <text x={x + 23} y={y + 17} textAnchor="middle" fontSize="10" fill="#2c3e50" style={{ fontWeight: 700 }}>
+                    <text x={x + 23} y={y + 17} textAnchor="middle" fontSize="11" fill="#2c3e50" style={{ fontWeight: 700 }}>
                       {w.toFixed(3)}
                     </text>
                   </g>
@@ -432,14 +425,14 @@ export default function AnalisisPesos() {
 
             {/* row labels */}
             {inputLabels.map((lab, i) => (
-              <text key={lab} x={96} y={42 + i * 32} textAnchor="end" fontSize="12" fill="#2c3e50">
+              <text key={lab} x={96} y={42 + i * 32} textAnchor="end" fontSize="13" fill="#2c3e50">
                 {lab}
               </text>
             ))}
 
             {/* col labels */}
             {[1, 2, 3, 4].map((n, j) => (
-              <text key={n} x={133 + j * 60} y={16} textAnchor="middle" fontSize="12" fill="#2c3e50" style={{ fontWeight: 800 }}>
+              <text key={n} x={133 + j * 60} y={16} textAnchor="middle" fontSize="13" fill="#2c3e50" style={{ fontWeight: 800 }}>
                 N{n}
               </text>
             ))}
@@ -456,34 +449,34 @@ export default function AnalisisPesos() {
                   fill="#2c3e50"
                   opacity="0.92"
                 />
-                <text x={Math.min(250, hoverCell.x + 14) + 10} y={Math.max(8, hoverCell.y - 24) + 18} fontSize="11" fill="white">
+                <text x={Math.min(250, hoverCell.x + 14) + 10} y={Math.max(8, hoverCell.y - 24) + 18} fontSize="12" fill="white">
                   {inputLabels[hoverCell.i]} → N{hoverCell.j + 1}
                 </text>
-                <text x={Math.min(250, hoverCell.x + 14) + 10} y={Math.max(8, hoverCell.y - 24) + 34} fontSize="12" fill="white" style={{ fontWeight: 800 }}>
+                <text x={Math.min(250, hoverCell.x + 14) + 10} y={Math.max(8, hoverCell.y - 24) + 34} fontSize="13" fill="white" style={{ fontWeight: 800 }}>
                   w = {hoverCell.w.toFixed(3)}
                 </text>
               </g>
             )}
           </svg>
 
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 6 }}>
-            <div style={{ fontSize: 12, color: "#2c3e50" }}>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 8 }}>
+            <div style={{ fontSize: 13, color: "#2c3e50" }}>
               <strong>Variables mas influyentes:</strong> {top3.map(v => v.name).join(", ")}
             </div>
-            <div style={{ fontSize: 12, color: "#7f8c8d" }}>
+            <div style={{ fontSize: 13, color: "#7f8c8d" }}>
               Conexion mas fuerte: <strong style={{ color: "#2c3e50" }}>{inputLabels[maxGlobal.i]}→N{maxGlobal.j + 1}</strong>
             </div>
           </div>
         </div>
 
         {/* Barras influencia */}
-        <div style={{ ...card, width: 420 }}>
+        <div style={{ ...card, flex: "1 1 450px", minWidth: 320 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div style={{ fontWeight: 900 }}>Influencia global</div>
-            <div style={{ fontSize: 12, color: "#7f8c8d" }}>comparacion por variable</div>
+            <div style={{ fontSize: 13, color: "#7f8c8d" }}>comparacion por variable</div>
           </div>
 
-          <svg width={388} height={310} style={{ marginTop: 10, display: "block" }}>
+          <svg width={388} height={310} style={{ marginTop: 10, display: "block", width: "100%", maxWidth: 388, height: "auto" }}>
             {varsInfluence.map((v, i) => {
               const h = (v.sumAbs / (maxInfluence || 1)) * 200;
               const x = 22 + i * 44;
@@ -503,10 +496,10 @@ export default function AnalisisPesos() {
                     opacity={isTop ? 0.95 : 0.55}
                     style={{ transition: "all .2s ease" }}
                   />
-                  <text x={x + 15} y={270} textAnchor="middle" fontSize="11" fill="#2c3e50">
+                  <text x={x + 15} y={270} textAnchor="middle" fontSize="12" fill="#2c3e50">
                     {v.name}
                   </text>
-                  <text x={x + 15} y={y - 6} textAnchor="middle" fontSize="10" fill="#7f8c8d">
+                  <text x={x + 15} y={y - 6} textAnchor="middle" fontSize="11" fill="#7f8c8d">
                     {v.sumAbs.toFixed(3)}
                   </text>
                 </g>
@@ -518,15 +511,15 @@ export default function AnalisisPesos() {
       </div>
 
       {/* ===================== SEGUNDA FILA ===================== */}
-      <div style={{ display: "flex", gap: 22, alignItems: "flex-start", flexWrap: "wrap", marginTop: 22 }}>
+      <div style={{ display: "flex", gap: 18, alignItems: "flex-start", flexWrap: "wrap", marginTop: 20 }}>
         {/* Panel control */}
-        <div style={{ ...card, width: 420 }}>
+        <div style={{ ...card, flex: "1 1 390px", minWidth: 320 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10, flexWrap: "wrap", marginBottom: 10 }}>
             <div style={{ fontWeight: 900 }}>Control del experimento</div>
-            <div style={{ fontSize: 12, color: "#7f8c8d" }}>Nota: siempre se modifica el registro R3.</div>
+            <div style={{ fontSize: 13, color: "#7f8c8d" }}>Nota: siempre se modifica el registro R3.</div>
           </div>
 
-          <div style={{ marginBottom: 12, color: "#2c3e50", fontSize: 16, fontWeight: 900 }}>
+          <div style={{ marginBottom: 12, color: "#2c3e50", fontSize: 17, fontWeight: 900 }}>
             Variable modificada: {inputLabels[varIdx]}
           </div>
 
@@ -547,10 +540,10 @@ export default function AnalisisPesos() {
             </button>
           </div>
 
-          <div style={{ background: "#ffffff", border: "1px solid #e5e7e9", borderRadius: 14, padding: "12px 12px" }}>
+          <div style={{ background: "var(--surface-strong, #ffffff)", border: "1px solid var(--panel-line, #e5e7e9)", borderRadius: 14, padding: "12px 12px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
               <div style={{ fontWeight: 800, color: "#2c3e50" }}>Δ (cambio aplicado)</div>
-              <div style={{ fontSize: 12, color: "#7f8c8d" }}>x → x + Δ</div>
+              <div style={{ fontSize: 13, color: "#7f8c8d" }}>x → x + Δ</div>
             </div>
 
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 10 }}>
@@ -567,28 +560,28 @@ export default function AnalisisPesos() {
                 textAlign: "center",
                 padding: "8px 10px",
                 borderRadius: 12,
-                background: "#f4f6f7",
-                border: "1px solid #e5e7e9",
+                background: "var(--panel-soft, #f4f6f7)",
+                border: "1px solid var(--panel-line, #e5e7e9)",
                 fontWeight: 900
               }}>
                 +{delta}
               </div>
             </div>
 
-            <div style={{ marginTop: 10, fontSize: 12, color: "#7f8c8d" }}>
+            <div style={{ marginTop: 10, fontSize: 13, color: "#7f8c8d" }}>
               En el heatmap y la red se resalta la celda y arista de la variable modificada.
             </div>
           </div>
         </div>
 
         {/* Mini red */}
-        <div style={{ ...card, width: 462 }}>
+        <div style={{ ...card, flex: "1 1 430px", minWidth: 320 }}>
           <div style={{ fontWeight: 900, marginBottom: 10 }}>Qué entra a la neurona seleccionada</div>
           <MiniNetwork />
         </div>
 
         {/* Gauges */}
-        <div style={{ ...card, width: 380 }}>
+        <div style={{ ...card, flex: "1 1 320px", minWidth: 280 }}>
           <div style={{ fontWeight: 900, marginBottom: 10 }}>Salida de la neurona</div>
 
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -600,7 +593,7 @@ export default function AnalisisPesos() {
             </div>
           </div>
 
-          <div style={{ marginTop: 10, fontSize: 13, color: "#2c3e50" }}>
+          <div style={{ marginTop: 10, fontSize: 14, color: "#2c3e50" }}>
             <strong>Resultado:</strong>{" "}
             <span style={{ fontWeight: 900 }}>
               Δz = {(z1 - z0).toFixed(3)}
@@ -640,13 +633,13 @@ export default function AnalisisPesos() {
                   }}
                 >
                   <div style={{ fontWeight: 900, color: "#2c3e50" }}>N{j + 1}</div>
-                  <div style={{ marginTop: 8, fontSize: 12, color: "#7f8c8d" }}>
+                  <div style={{ marginTop: 8, fontSize: 13, color: "#7f8c8d" }}>
                     R3: <span style={{ color: "#2c3e50", fontWeight: 800 }}>{actR3.a[j].toFixed(3)}</span>
                   </div>
-                  <div style={{ fontSize: 12, color: "#7f8c8d" }}>
+                  <div style={{ fontSize: 13, color: "#7f8c8d" }}>
                     R5: <span style={{ color: "#2c3e50", fontWeight: 800 }}>{actR5.a[j].toFixed(3)}</span>
                   </div>
-                  <div style={{ marginTop: 8, fontSize: 12, color: "#2c3e50" }}>
+                  <div style={{ marginTop: 8, fontSize: 13, color: "#2c3e50" }}>
                     Δ: <span style={{ fontWeight: 900 }}>{dif.toFixed(3)}</span>
                   </div>
 
@@ -657,7 +650,7 @@ export default function AnalisisPesos() {
                       borderRadius: 12,
                       background: "rgba(155,89,182,0.12)",
                       color: "#2c3e50",
-                      fontSize: 12,
+                      fontSize: 13,
                       fontWeight: 900
                     }}>
                       mayor diferencia
@@ -670,11 +663,11 @@ export default function AnalisisPesos() {
 
           {/* Atribución simple con top Δx·w */}
           <div style={{ marginTop: 16, display: "flex", gap: 18, flexWrap: "wrap", alignItems: "stretch" }}>
-            <div style={{ ...card, background: "#ffffff", width: 460 }}>
+            <div style={{ ...card, background: "var(--surface-strong, #ffffff)", flex: "1 1 430px", minWidth: 320 }}>
               <div style={{ fontWeight: 900, color: "#2c3e50" }}>
                 Neurona explicada: N{bestDiffNeuron.j + 1}
               </div>
-              <div style={{ fontSize: 12, color: "#7f8c8d", marginTop: 6 }}>
+              <div style={{ fontSize: 13, color: "#7f8c8d", marginTop: 6 }}>
                 Evidencia rápida: variables con mayor contribución |Δx·w| entre R3 y R5
               </div>
 
@@ -688,7 +681,7 @@ export default function AnalisisPesos() {
 
                   return (
                     <div key={t.i} style={{ marginBottom: 10 }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#2c3e50" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#2c3e50" }}>
                         <div style={{ fontWeight: 900 }}>
                           {idx + 1}. {inputLabels[t.i]}
                         </div>
@@ -700,7 +693,7 @@ export default function AnalisisPesos() {
                         <div style={{ width: 280, height: 12, background: "#f4f6f7", borderRadius: 999, border: "1px solid #e5e7e9" }}>
                           <div style={{ width: bw, height: 12, borderRadius: 999, background: col, opacity: 0.75 }} />
                         </div>
-                        <div style={{ fontSize: 11, color: "#7f8c8d" }}>
+                        <div style={{ fontSize: 12, color: "#7f8c8d" }}>
                           w={t.w.toFixed(3)}
                         </div>
                       </div>
@@ -710,11 +703,11 @@ export default function AnalisisPesos() {
               </div>
             </div>
 
-            <div style={{ ...card, background: "#ffffff", width: 520 }}>
+            <div style={{ ...card, background: "var(--surface-strong, #ffffff)", flex: "1 1 460px", minWidth: 320 }}>
               <div style={{ fontWeight: 900, color: "#2c3e50" }}>
                 Lectura (d) en una frase
               </div>
-              <div style={{ marginTop: 10, fontSize: 13, color: "#2c3e50", lineHeight: 1.6 }}>
+              <div style={{ marginTop: 10, fontSize: 14, color: "#2c3e50", lineHeight: 1.6 }}>
                 R3 y R5 difieren especialmente en la neurona <strong>N{bestDiffNeuron.j + 1}</strong>. La diferencia se puede atribuir a cambios
                 en variables con mayor impacto (<strong>|Δx·w|</strong> alto), lo que concuerda con que los pesos reflejan sensibilidad de la activación.
               </div>
@@ -725,7 +718,7 @@ export default function AnalisisPesos() {
                   borderRadius: 14,
                   background: "rgba(46,204,113,0.10)",
                   border: "1px solid #e5e7e9",
-                  fontSize: 12,
+                  fontSize: 13,
                   color: "#2c3e50"
                 }}>
                   R3 → activación: <strong>{actR3.a[bestDiffNeuron.j].toFixed(3)}</strong>
@@ -735,7 +728,7 @@ export default function AnalisisPesos() {
                   borderRadius: 14,
                   background: "rgba(231,76,60,0.08)",
                   border: "1px solid #e5e7e9",
-                  fontSize: 12,
+                  fontSize: 13,
                   color: "#2c3e50"
                 }}>
                   R5 → activación: <strong>{actR5.a[bestDiffNeuron.j].toFixed(3)}</strong>
@@ -745,7 +738,7 @@ export default function AnalisisPesos() {
                   borderRadius: 14,
                   background: "rgba(155,89,182,0.12)",
                   border: "1px solid #e5e7e9",
-                  fontSize: 12,
+                  fontSize: 13,
                   color: "#2c3e50",
                   fontWeight: 900
                 }}>
@@ -753,7 +746,7 @@ export default function AnalisisPesos() {
                 </div>
               </div>
 
-              <div style={{ marginTop: 12, fontSize: 12, color: "#7f8c8d" }}>
+              <div style={{ marginTop: 12, fontSize: 13, color: "#7f8c8d" }}>
                 (Esto es exactamente lo que te pide (d): dos registros muy distintos + interpretación atribuible a pesos influyentes.)
               </div>
             </div>

@@ -1,11 +1,118 @@
-body {
-  background-color: #1a1a1a;
-  color: #f0f0f0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+* {
+  box-sizing: border-box;
 }
 
-h1, h2, h3 {
-  color: #ffffff;
+html,
+body,
+#__next {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Aptos", "Trebuchet MS", "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app-shell {
+  --bg-start: #f1f5f9;
+  --bg-end: #e2e8f0;
+  --text-main: #10263a;
+  --text-muted: #425466;
+  --title: #0b2239;
+  --surface: rgba(255, 255, 255, 0.82);
+  --surface-strong: #ffffff;
+  --surface-border: #d8e2ec;
+  --shadow: 0 18px 50px rgba(17, 24, 39, 0.08);
+  --accent: #0d7f86;
+  --accent-soft: #0f5f99;
+  --panel-soft: #f6f9fc;
+  --panel-line: #d9e2ec;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 10% -5%, rgba(15, 127, 134, 0.13), transparent 30%),
+    radial-gradient(circle at 90% 0%, rgba(14, 104, 155, 0.14), transparent 34%),
+    linear-gradient(165deg, var(--bg-start), var(--bg-end));
+  color: var(--text-main);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.app-container {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: clamp(1rem, 2.2vw, 2rem);
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: clamp(1.4rem, 3vw, 2.6rem);
+}
+
+.hero-title {
+  margin: 0;
+  color: var(--title);
+  font-size: clamp(2.1rem, 3.8vw, 3.2rem);
+  letter-spacing: 0.01em;
+}
+
+.hero-subtitle {
+  margin: 0.5rem 0 0 0;
+  color: var(--text-muted);
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  font-weight: 650;
+}
+
+.section-surface {
+  margin-bottom: 1.9rem;
+  padding: clamp(1rem, 2vw, 1.7rem);
+  border: 1px solid var(--surface-border);
+  border-radius: 20px;
+  background: var(--surface);
+  backdrop-filter: blur(3px);
+  box-shadow: var(--shadow);
+}
+
+.section-title {
+  margin: 0;
+  padding-bottom: 0.55rem;
+  border-bottom: 2px solid color-mix(in srgb, var(--accent) 35%, var(--surface-border));
+  color: var(--title);
+  font-size: clamp(1.55rem, 2.5vw, 2.2rem);
+}
+
+.section-desc {
+  margin: 0.85rem 0 0 0;
+  color: var(--text-muted);
+  font-size: clamp(1.05rem, 1.35vw, 1.15rem);
+}
+
+.section-gap {
+  margin-top: 1.4rem;
+}
+
+.viz-frame {
+  margin-top: 1.15rem;
+  padding: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--surface-border) 85%, transparent);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--surface-strong) 94%, transparent);
+  overflow: auto;
+}
+
+.viz-frame svg {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 960px) {
+  .section-surface {
+    border-radius: 16px;
+  }
+
+  .viz-frame {
+    padding: 0.55rem;
+  }
 }
