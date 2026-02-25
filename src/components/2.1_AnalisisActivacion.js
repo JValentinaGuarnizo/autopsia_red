@@ -43,6 +43,16 @@ export default function AnalisisActivaciones() {
     const hiddenX = 400;
     const hiddenYSpacing = 100;
 
+    const activacionStats = [
+        { label: "N1", avg: 0.0, min: 0.0, max: 0.0 },
+        { label: "N2", avg: 0.0255, min: 0.0, max: 1.08 },
+        { label: "N3", avg: 6.5799, min: 1.71, max: 10.53 },
+        { label: "N4", avg: 0.009, min: 0.0, max: 0.63 },
+    ];
+
+    const fmtAvg = (v) => Number(v).toFixed(4);
+    const fmtMinMax = (v) => Number(v).toFixed(2);
+
     return (
         <div style={{ marginTop: "28px", textAlign: "center" }}>
 
@@ -268,9 +278,51 @@ export default function AnalisisActivaciones() {
                     })}
                 </div>
 
-                <div style={{ marginTop: "10px", fontSize: "14px", color: "#2c3e50" }}>
-                    <strong>Interpretación:</strong> con ReLU, toda suma ponderada ≤ <strong>0</strong> se recorta a <strong>0</strong>.
-                    Por eso algunas neuronas quedan “apagadas” para ciertas entradas.
+            </div>
+
+            <div style={{
+                marginTop: "16px",
+                maxWidth: "900px",
+                marginLeft: "auto",
+                marginRight: "auto",
+                textAlign: "left",
+                background: "#0b2239",
+                borderRadius: "14px",
+                padding: "18px 20px",
+                border: "1px solid #16324f",
+                boxShadow: "0 12px 26px rgba(0,0,0,0.18)"
+            }}>
+                <div style={{ fontWeight: "900", marginBottom: "14px", color: "#ffffff", fontSize: "20px" }}>
+                    Reporte de activación por neurona (promedio, min y max)
+                </div>
+                <div style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(4, minmax(200px, 1fr))",
+                    gap: "14px"
+                }}>
+                    {activacionStats.map((item) => (
+                        <div
+                            key={item.label}
+                            style={{
+                                background: "#ffffff",
+                                borderRadius: "14px",
+                                border: "2px solid #dbe6f5",
+                                padding: "14px 16px",
+                                boxShadow: "0 10px 20px rgba(0,0,0,0.14)",
+                                display: "grid",
+                                gap: "10px"
+                            }}
+                        >
+                            <div style={{ fontWeight: "900", color: "#10263a", fontSize: "18px" }}>{item.label}</div>
+                            <div style={{ fontSize: "18px", color: "#10263a" }}>
+                                avg <strong style={{ color: "#2ecc71" }}>{fmtAvg(item.avg)}</strong>
+                            </div>
+                            <div style={{ display: "flex", gap: "14px", fontSize: "16px", color: "#2c3e50" }}>
+                                <span>min <strong style={{ color: "#0f5f99" }}>{fmtMinMax(item.min)}</strong></span>
+                                <span>max <strong style={{ color: "#e74c3c" }}>{fmtMinMax(item.max)}</strong></span>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
 

@@ -19,39 +19,39 @@ export default function AnalisisPesosAntesDespues() {
   ];
 
   const W1_after = [
-    [-0.02175668, -0.00015831, 0.02154585, -0.0479798],
-    [-0.04214019, 0.01265594, 0.02549983, -0.03267942],
-    [-0.03712874, -0.04473295, 0.04425292, -0.02695481],
-    [-0.00224584, -0.02534449, 0.0224576, 0.02690658],
-    [0.00369109, -0.03312949, 0.00028085, -0.03000574],
-    [-0.04647031, -0.01872196, -0.00256057, 0.00597994],
-    [0.03235373, 0.00913667, -0.01797307, 0.02625214],
-    [-0.03742474, 0.00980286, -0.01972204, 0.03528589],
+    [-0.02175668, -0.00988065, -0.3175064, -0.05379025],
+    [-0.04214019, -0.00496481, -0.11167107, -0.03267942],
+    [-0.03712874, -0.04473295, 0.29952776, -0.03325341],
+    [-0.00224584, -0.03042296, 0.15230004, 0.02062371],
+    [0.00369109, -0.03312949, -0.03970124, -0.03000574],
+    [-0.04647031, -0.03201645, 0.06163074, -0.00030806],
+    [0.03235373, -0.00284468, -0.14360611, 0.0223425],
+    [-0.03742474, -0.00794955, -0.01300016, 0.02900057],
   ];
 
   const W2_before = [
-    [-0.9949689, -0.8087852],
-    [-0.10447884, -0.9095397],
-    [-0.1425693, -0.39454937],
-    [-0.6364999, -0.13915944],
+    [-0.02175668, -0.00015831],
+    [0.02154585, -0.0479798],
+    [-0.04214019, 0.01265594],
+    [0.02549983, -0.03267942],
   ];
 
   const W2_after = [
-    [-0.9949689, -0.8087852],
-    [-0.10447884, -0.9095397],
-    [-0.1425693, -0.39454937],
-    [-0.6364999, -0.13915944],
+    [-0.02175668, -0.00015831],
+    [0.02154585, -0.02968187],
+    [-0.04214019, 0.2013928],
+    [0.02549983, -0.02659439],
   ];
 
-  const Wout_before = [[0.11023283], [-0.80309635]];
-  const Wout_after = [[0.11023283], [-0.80309635]];
+  const Wout_before = [[-0.02175668], [-0.00015831]];
+  const Wout_after = [[-0.02175668], [-0.19202235]];
 
   const b1_before = [-0.02175668, -0.00015831, 0.02154585, -0.0479798];
-  const b1_after = [-0.02175668, -0.00015831, 0.02154585, -0.0479798];
+  const b1_after = [-0.02175668, -0.01665724, 0.4204217, -0.05379025];
   const b2_before = [0.0, 0.0];
-  const b2_after = [0.0, 0.0];
+  const b2_after = [0.0, 0.31476262];
   const bout_before = [0.0];
-  const bout_after = [-0.50022095];
+  const bout_after = [-0.23830743];
 
   const [highlightMax, setHighlightMax] = useState(true);
 
@@ -87,7 +87,7 @@ export default function AnalisisPesosAntesDespues() {
   }, []);
 
   const fmt = (v) => Number(v).toFixed(6).replace(/0+$/, "").replace(/\.$/, "");
-  const fmt2 = (v) => Number(v).toFixed(2);
+  const fmt2 = (v) => Number(v).toFixed(4);
   const maxAbs = (m) => Math.max(...m.flat().map((v) => Math.abs(v)), 1e-9);
   const frob = (m) => Math.sqrt(m.flat().reduce((acc, v) => acc + v * v, 0));
   const meanAbs = (m) => m.flat().reduce((acc, v) => acc + Math.abs(v), 0) / m.flat().length;
@@ -133,8 +133,8 @@ export default function AnalisisPesosAntesDespues() {
 
   const Heatmap = ({ title, matrix, rows, cols, highlight }) => {
     const scale = maxAbs(matrix);
-    const cell = 34;
-    const rowLabel = 78;
+    const cell = 56;
+    const rowLabel = 96;
     const gap = 6;
     const gridStyle = {
       display: "grid",
@@ -142,12 +142,12 @@ export default function AnalisisPesosAntesDespues() {
       columnGap: gap,
       rowGap: gap,
       alignItems: "center",
-      fontSize: 12,
+      fontSize: 14,
     };
 
     return (
       <div style={{ ...card, padding: "12px 14px" }}>
-        <div style={{ fontWeight: 800, fontSize: 13, marginBottom: 8 }}>{title}</div>
+        <div style={{ fontWeight: 800, fontSize: 14, marginBottom: 8 }}>{title}</div>
         <div style={gridStyle}>
           <div />
           {cols.map((c) => (
@@ -181,7 +181,7 @@ export default function AnalisisPesosAntesDespues() {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      fontSize: 12,
+                      fontSize: 14,
                       color: "#1f2937",
                       fontWeight: 700,
                     }}

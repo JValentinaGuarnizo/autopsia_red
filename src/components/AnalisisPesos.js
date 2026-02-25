@@ -608,10 +608,10 @@ export default function AnalisisPesos() {
 
       {/* ===================== 3(d) WOW ===================== */}
       <div style={{ marginTop: 28 }}>
+        <div style={{ fontWeight: 900, marginBottom: 10, fontSize: 18, color: "#2c3e50" }}>
+          Comparación R3 vs R5 (activaciones muy distintas)
+        </div>
         <div style={{ ...card }}>
-          <div style={{ fontWeight: 900, marginBottom: 10 }}>
-            3(d) — Comparación R3 vs R5 (activaciones muy distintas)
-          </div>
 
           {/* Activaciones por neurona */}
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
