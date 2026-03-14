@@ -16,17 +16,17 @@ export default function RedInteractivaCapa2Mejorada() {
     const hiddenLabels = ["H1", "H2"];
 
     const weights = [
-        [-0.03858793, -1.3908931],
-        [0.02857971, 0.425188],
-        [0.08346922, 0.20941724],
-        [-0.0585599, -0.28768224]
+        [0.07420244, -1.074503],
+        [-0.01710108, 0.84248334],
+        [-0.0813802, -0.05635957],
+        [0.05281651, 0.13185477]
     ];
 
-    const biases = [0.17435011, 0.04571007];
+    const biases = [0.22748469, 0.00174031];
 
-    const sumaSinSesgo = [-0.03251303, 0.0904508];
-    const sumaConSesgo = [-0.03251303, 0.0904508];
-    const activacion = [0, 0.09045079682259215];
+    const sumaSinSesgo = [0, 0];
+    const sumaConSesgo = [0.22748469, 0.00174031];
+    const activacion = [0.22748469, 0.00174031];
 
     const positiveColor = theme.accentPos;
     const negativeColor = theme.accentNeg;

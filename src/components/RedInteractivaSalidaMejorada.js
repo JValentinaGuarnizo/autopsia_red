@@ -17,15 +17,15 @@ export default function RedInteractivaSalidaMejorada() {
     const outputLabels = ["O1"];
 
     const weights = [
-        [-0.67387855],
-        [-0.59220254]
+        [1.0028129],
+        [0.27625808]
     ];
 
-    const biases = [-0.17964701];
+    const biases = [-0.12318249];
 
-    const sumaSinSesgo = [-0.00187907];
-    const sumaConSesgo = [-0.00187907];
-    const activacion = [0.49353023]; // Sigmoid output
+    const sumaSinSesgo = [0];
+    const sumaConSesgo = [-0.12318249];
+    const activacion = [0.46924326]; // Sigmoid output
 
     const positiveColor = theme.accentPos;
     const negativeColor = theme.accentNeg;

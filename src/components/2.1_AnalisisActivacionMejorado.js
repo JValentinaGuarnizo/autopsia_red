@@ -14,15 +14,12 @@ export default function AnalisisActivacionesMejorado() {
     const inputNode = theme.accentBlue;
     const hiddenNode = theme.accentPurple;
 
-    // OJO: Estas activaciones de ejemplo no son las reales evaluadas para esta nueva red sobre los 5 registros,
-    // pero como el reporte no provee las "activacionesRegistro" pre-calculadas de los 5 pacientes, haré un seteo dummy > 0
-    // para que la UI no se rompa (podrían quedar negativas y apagarse, pero pondré unos valores ilustrativos basados en la media)
     const activacionesRegistros = [
-        [110.38, 2.41, 5.30, 81.67], // Promedio como R1
-        [379.43, 145.61, 299.06, 471.37], // Max como R2
-        [22.90, 0, 0, 0], // Min como R3
-        [-8.03, -5.84, 5.28, -6.07], // Random 1 (apagadas N1 N2 N4)
-        [50.1, 10.5, 0, 15.2] // Random 2
+        [0.0000, 0.6039, 1.3356, 0.0000], // R1
+        [0.0000, 0.0000, 0.0000, 0.0000], // R2
+        [0.0000, 0.0000, 0.5702, 0.3715], // R3
+        [1.0046, 0.5511, 0.2962, 1.1884], // R4
+        [0.4310, 0.0000, 0.3309, 0.1838]  // R5
     ];
 
     const inputLabels = [
@@ -39,26 +36,26 @@ export default function AnalisisActivacionesMejorado() {
     ];
 
     const weights = [
-        [-0.16139945, -0.62433326, -0.04223842, 0.13126098],
-        [0.46537235, -0.29361084, -0.60242856, 0.5252675],
-        [-0.02884118, 0.45421892, -0.26369917, -0.20380513],
-        [0.11620278, -0.5893649, -0.24052233, -0.62186086],
-        [0.2955946, 0.30955124, 0.5497323, 0.46467063],
-        [0.5039663, -0.8880986, -0.2792889, 0.28231946],
-        [0.666122, 0.40894002, -0.5660965, -0.9346113],
-        [0.4219358, -0.79326355, -0.37209475, -0.05634119]
+        [0.04545073, -0.8515836, -0.13340735, 0.09059415],
+        [0.5148121, 0.4121364, -0.6165441, 0.5709409],
+        [-0.12461212, 0.838777, -0.12325263, -0.15125173],
+        [0.20505102, -0.60495555, -0.28540835, -0.5833098],
+        [0.15851279, 0.44289604, 0.46137828, 0.4713644],
+        [0.5140562, -0.47557425, -0.36225626, 0.36648035],
+        [0.7669518, 0.46408454, -0.468575, -0.89425975],
+        [0.15797631, -0.16025622, -0.500683, -0.11181547]
     ];
 
-    const biases = [0.3004001, -0.47274107, -0.16322827, 0.58526754];
+    const biases = [0.23089342, -0.07109793, 0.0470638, 0.62113106];
 
     const hiddenX = 400;
     const hiddenYSpacing = 100;
 
     const activacionStats = [
-        { label: "N1", avg: 110.38541, min: 22.902493, max: 379.43835 },
-        { label: "N2", avg: 2.4115338, min: 0.0, max: 145.617 },
-        { label: "N3", avg: 5.3078218, min: 0.0, max: 299.0696 },
-        { label: "N4", avg: 81.678535, min: 0.0, max: 471.37402 },
+        { label: "N1", avg: 0.2871, min: 0.0, max: 1.0046 },
+        { label: "N2", avg: 0.2310, min: 0.0, max: 0.6039 },
+        { label: "N3", avg: 0.5066, min: 0.0, max: 1.3356 },
+        { label: "N4", avg: 0.3487, min: 0.0, max: 1.1884 },
     ];
 
     const fmtAvg = (v) => Number(v).toFixed(4);
